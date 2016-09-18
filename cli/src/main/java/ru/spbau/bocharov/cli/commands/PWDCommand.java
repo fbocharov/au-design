@@ -3,6 +3,8 @@ package ru.spbau.bocharov.cli.commands;
 import ru.spbau.bocharov.cli.common.Context;
 import ru.spbau.bocharov.cli.common.IO;
 
+import java.io.PrintStream;
+
 public class PWDCommand extends BaseCommand {
 
     public PWDCommand(String commandName) {
@@ -11,6 +13,6 @@ public class PWDCommand extends BaseCommand {
 
     @Override
     public void execute(IO io, Context context) {
-        io.STDOUT.println(System.getProperty("user.dir"));
+        new PrintStream(io.STDOUT).println(System.getProperty("user.dir"));
     }
 }

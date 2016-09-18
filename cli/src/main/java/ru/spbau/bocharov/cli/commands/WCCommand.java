@@ -4,6 +4,7 @@ import ru.spbau.bocharov.cli.common.Context;
 import ru.spbau.bocharov.cli.common.IO;
 
 import java.io.IOException;
+import java.io.PrintStream;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.Scanner;
@@ -17,8 +18,11 @@ public class WCCommand extends BaseCommand {
 
     @Override
     public void execute(IO io, Context context) throws IOException {
+        PrintStream stdout = new PrintStream(io.STDOUT);
+        PrintStream stderr = new PrintStream(io.STDERR);
+
         if (io.STDIN == null && arguments.isEmpty()) {
-            io.STDERR.println("can't execute wc with empty input");
+            stderr.println("can't execute wc with empty input");
             return;
         }
 
@@ -33,18 +37,20 @@ public class WCCommand extends BaseCommand {
                         counters.byteCount += line.length();
                     });
                 } catch (IOException e) {
-                    e.printStackTrace(io.STDERR);
+                    e.printStackTrace(stderr);
                 }
                 totalCounters.add(counters);
 
-                printCounters(io, counters);
+                printCounters(stdout, counters);
             }
 
             if (arguments.size() > 1) {
-                printCounters(io, totalCounters);
+                printCounters(stdout, totalCounters);
             }
         } else {
             Counters counters = new Counters();
+
+            assert io.STDIN != null;
             Scanner sc = new Scanner(io.STDIN);
             int emptyLineCount = 0;
             while (sc.hasNextLine()) {
@@ -60,12 +66,12 @@ public class WCCommand extends BaseCommand {
                 counters.wordCount += line.split(" ").length;
                 counters.byteCount += line.length();
             }
-            printCounters(io, counters);
+            printCounters(stdout, counters);
         }
     }
 
-    private void printCounters(IO io, Counters counters) {
-        io.STDOUT.format("%d %d %d\n",
+    private void printCounters(PrintStream stdout, Counters counters) {
+        stdout.format("%d %d %d\n",
                 counters.lineCount, counters.wordCount, counters.byteCount);
     }
 

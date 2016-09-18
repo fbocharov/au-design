@@ -33,7 +33,7 @@ public class Parser {
                 // TODO: substitute
                 ICommand command = factory.createCommand(cmd);
                 if (cmdWithArgs.size() > 1) {
-                    command.addArguments(cmdWithArgs.subList(1, cmdWithArgs.size() - 1));
+                    command.addArguments(cmdWithArgs.subList(1, cmdWithArgs.size()));
                 }
                 result.add(command);
             }

@@ -6,8 +6,8 @@ import java.io.PrintStream;
 
 public class IO {
     public final InputStream STDIN;
-    public final PrintStream STDOUT;
-    public final PrintStream STDERR;
+    public final OutputStream STDOUT;
+    public final OutputStream STDERR;
 
     public IO(InputStream in, OutputStream out, OutputStream err) {
         STDIN = in;
