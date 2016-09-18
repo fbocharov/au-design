@@ -9,7 +9,7 @@ public class IO {
     public final PrintStream STDOUT;
     public final PrintStream STDERR;
 
-    IO(InputStream in, OutputStream out, OutputStream err) {
+    public IO(InputStream in, OutputStream out, OutputStream err) {
         STDIN = in;
         STDOUT = new PrintStream(out);
         STDERR = new PrintStream(err);

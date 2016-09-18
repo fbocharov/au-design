@@ -1,0 +1,30 @@
+package ru.spbau.bocharov.cli.commands;
+
+import org.junit.Test;
+import ru.spbau.bocharov.cli.common.IO;
+
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.lang.reflect.InvocationTargetException;
+import java.net.URL;
+
+import static org.junit.Assert.assertTrue;
+
+public abstract class CommandTestBase {
+
+    @Test
+    public void shouldPrintErrorIfNoStdinOrArguments() throws NoSuchMethodException, InstantiationException,
+            IllegalAccessException, InvocationTargetException, IOException {
+        ByteArrayOutputStream stream = new ByteArrayOutputStream();
+        createCommand().execute(new IO(null, stream, stream));
+        assertTrue(!stream.toString().isEmpty());
+    }
+
+    protected abstract ICommand createCommand() throws InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException;
+
+    protected String getFilePath(String filename) {
+        URL resource = ClassLoader.getSystemClassLoader().getResource(filename);
+        return resource == null ? null : resource.getFile();
+    }
+
+}

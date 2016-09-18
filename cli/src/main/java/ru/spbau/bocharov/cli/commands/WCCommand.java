@@ -15,19 +15,19 @@ public class WCCommand extends BaseCommand {
     }
 
     @Override
-    public void execute(IO io) {
-        if (io.STDIN == null && arguments == null) {
+    public void execute(IO io) throws IOException {
+        if (io.STDIN == null && arguments.isEmpty()) {
             io.STDERR.println("can't execute wc with empty input");
             return;
         }
 
-        if (arguments != null) {
+        if (!arguments.isEmpty()) {
             Counters totalCounters = new Counters();
             for (String fileName: arguments) {
                 Counters counters = new Counters();
                 try (Stream<String> lines = Files.lines(Paths.get(fileName))) {
-                    counters.lineCount++;
                     lines.forEach(line -> {
+                        counters.lineCount++;
                         counters.wordCount += line.split(" ").length;
                         counters.byteCount += line.length();
                     });

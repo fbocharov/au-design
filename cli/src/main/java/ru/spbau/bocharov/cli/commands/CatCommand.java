@@ -16,12 +16,12 @@ public class CatCommand extends BaseCommand {
 
     @Override
     public void execute(IO io) {
-        if (io.STDIN == null && arguments == null) {
+        if (io.STDIN == null && arguments.isEmpty()) {
             io.STDERR.println("can't execute cat with empty input");
             return;
         }
 
-        if (arguments != null) {
+        if (!arguments.isEmpty()) {
             for (String filePath : arguments) {
                 try (Stream<String> stream = Files.lines(Paths.get(filePath))) {
                     stream.forEach(io.STDOUT::println);
@@ -30,6 +30,8 @@ public class CatCommand extends BaseCommand {
                 }
             }
         } else {
+            assert io.STDIN != null;
+
             Scanner sc = new Scanner(io.STDIN);
             int emptyLineCount = 0;
             while (sc.hasNextLine()) {

@@ -2,6 +2,8 @@ package ru.spbau.bocharov.cli.commands;
 
 import ru.spbau.bocharov.cli.common.IO;
 
+import java.util.StringJoiner;
+
 public class EchoCommand extends BaseCommand {
 
     public EchoCommand(String commandName) {
@@ -10,10 +12,11 @@ public class EchoCommand extends BaseCommand {
 
     @Override
     public void execute(IO io) {
+        StringJoiner joiner = new StringJoiner(" ", "", "\n");
         for (String arg: arguments) {
-            io.STDOUT.print(removeQuotes(arg));
+            joiner.add(removeQuotes(arg));
         }
-        io.STDOUT.print('\n');
+        io.STDOUT.print(joiner.toString());
     }
 
     private String removeQuotes(String str) {
@@ -24,9 +27,10 @@ public class EchoCommand extends BaseCommand {
                 continue;
             }
 
-            builder.append(str.charAt(i));
-            if (str.charAt(i) == '\\' && i + 1 < str.length() &&
-                    str.charAt(i + 1) == '"') {
+            if (str.charAt(i) != '\\') {
+                builder.append(str.charAt(i));
+            } else if (i + 1 < str.length() && str.charAt(i + 1) == '"') {
+                // skip '/'
                 builder.append(str.charAt(i + 1));
                 ++i;
             }
