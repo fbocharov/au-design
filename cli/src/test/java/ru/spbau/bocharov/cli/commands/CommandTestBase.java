@@ -1,6 +1,7 @@
 package ru.spbau.bocharov.cli.commands;
 
 import org.junit.Test;
+import ru.spbau.bocharov.cli.common.Context;
 import ru.spbau.bocharov.cli.common.IO;
 
 import java.io.ByteArrayOutputStream;
@@ -13,10 +14,9 @@ import static org.junit.Assert.assertTrue;
 public abstract class CommandTestBase {
 
     @Test
-    public void shouldPrintErrorIfNoStdinOrArguments() throws NoSuchMethodException, InstantiationException,
-            IllegalAccessException, InvocationTargetException, IOException {
+    public void shouldPrintErrorIfNoStdinOrArguments() throws Exception {
         ByteArrayOutputStream stream = new ByteArrayOutputStream();
-        createCommand().execute(new IO(null, stream, stream));
+        createCommand().execute(new IO(null, stream, stream), createContext());
         assertTrue(!stream.toString().isEmpty());
     }
 
@@ -27,4 +27,7 @@ public abstract class CommandTestBase {
         return resource == null ? null : resource.getFile();
     }
 
+    protected Context createContext() {
+        return new Context();
+    }
 }

@@ -1,5 +1,6 @@
 package ru.spbau.bocharov.cli.commands;
 
+import ru.spbau.bocharov.cli.common.Context;
 import ru.spbau.bocharov.cli.common.IO;
 
 import java.io.IOException;
@@ -14,7 +15,7 @@ public class ExternalCommand extends BaseCommand {
     }
 
     @Override
-    public void execute(IO io) {
+    public void execute(IO io, Context context) {
         try {
             Process process = Runtime.getRuntime().exec(createShellCommand());
             pipeStream(io.STDIN, process.getOutputStream());

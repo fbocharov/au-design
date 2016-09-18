@@ -5,7 +5,6 @@ import ru.spbau.bocharov.cli.common.IO;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
-import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 
 import static org.junit.Assert.*;
@@ -13,14 +12,13 @@ import static org.junit.Assert.*;
 public class CatCommandTest extends CommandTestBase {
 
     @Test
-    public void shouldCatFile() throws NoSuchMethodException, InstantiationException,
-            IllegalAccessException, InvocationTargetException, IOException {
+    public void shouldCatFile() throws Exception {
         ByteArrayOutputStream out = new ByteArrayOutputStream();
         ByteArrayOutputStream err = new ByteArrayOutputStream();
         ICommand command = createCommand();
         command.addArguments(getFilePath("test1.txt"));
 
-        command.execute(new IO(null, out, err));
+        command.execute(new IO(null, out, err), createContext());
 
         assertEquals(
                 "a b c\n" +
@@ -30,13 +28,12 @@ public class CatCommandTest extends CommandTestBase {
     }
 
     @Test
-    public void shouldStopOnTwoEmptyLines() throws NoSuchMethodException, InstantiationException,
-            IllegalAccessException, InvocationTargetException, IOException {
+    public void shouldStopOnTwoEmptyLines() throws Exception {
         ByteArrayInputStream in = new ByteArrayInputStream("hello\nworld\n!\n\n\n".getBytes());
         ByteArrayOutputStream out = new ByteArrayOutputStream();
         ByteArrayOutputStream err = new ByteArrayOutputStream();
 
-        createCommand().execute(new IO(in, out, err));
+        createCommand().execute(new IO(in, out, err), createContext());
 
         assertEquals(
                 "hello\n" +

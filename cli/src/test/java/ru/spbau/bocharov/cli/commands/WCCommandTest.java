@@ -13,13 +13,12 @@ import static org.junit.Assert.*;
 public class WCCommandTest extends CommandTestBase {
 
     @Test
-    public void shouldCountInInputStream() throws NoSuchMethodException, InstantiationException,
-            IllegalAccessException, InvocationTargetException, IOException {
+        public void shouldCountInInputStream() throws Exception {
         ByteArrayOutputStream out = new ByteArrayOutputStream();
         ByteArrayOutputStream err = new ByteArrayOutputStream();
         IO io = new IO(new ByteArrayInputStream("a b c\nd e f".getBytes()), out, err);
 
-        createCommand().execute(io);
+        createCommand().execute(io, createContext());
 
         assertEquals(
                 "2 6 10\n",
@@ -28,8 +27,7 @@ public class WCCommandTest extends CommandTestBase {
     }
 
     @Test
-    public void shouldCountInFiles() throws NoSuchMethodException, InstantiationException,
-            IllegalAccessException, InvocationTargetException, IOException {
+    public void shouldCountInFiles() throws Exception {
         ByteArrayOutputStream out = new ByteArrayOutputStream();
         ByteArrayOutputStream err = new ByteArrayOutputStream();
         ICommand command = createCommand();
@@ -37,7 +35,7 @@ public class WCCommandTest extends CommandTestBase {
                 getFilePath("test1.txt"),
                 getFilePath("test2.txt"));
 
-        command.execute(new IO(null, out, err));
+        command.execute(new IO(null, out, err), createContext());
 
         assertEquals(
                 "2 6 10\n" +

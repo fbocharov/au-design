@@ -1,5 +1,6 @@
 package ru.spbau.bocharov.cli.commands;
 
+import ru.spbau.bocharov.cli.common.Context;
 import ru.spbau.bocharov.cli.common.IO;
 
 import java.io.IOException;
@@ -15,7 +16,7 @@ public class CatCommand extends BaseCommand {
     }
 
     @Override
-    public void execute(IO io) {
+    public void execute(IO io, Context context) {
         if (io.STDIN == null && arguments.isEmpty()) {
             io.STDERR.println("can't execute cat with empty input");
             return;

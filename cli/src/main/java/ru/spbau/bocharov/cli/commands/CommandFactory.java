@@ -22,11 +22,12 @@ public class CommandFactory {
     private Map<CommandType, Class> commandRegistry = new HashMap<>();
 
     private CommandFactory() {
-        commandRegistry.put(CommandType.CAT,      CatCommand.class);
-        commandRegistry.put(CommandType.WC,       WCCommand.class);
-        commandRegistry.put(CommandType.ECHO,     EchoCommand.class);
-        commandRegistry.put(CommandType.PWD,      PWDCommand.class);
-        commandRegistry.put(CommandType.EXTERNAL, ExternalCommand.class);
+        commandRegistry.put(CommandType.CAT,        CatCommand.class);
+        commandRegistry.put(CommandType.WC,         WCCommand.class);
+        commandRegistry.put(CommandType.ECHO,       EchoCommand.class);
+        commandRegistry.put(CommandType.PWD,        PWDCommand.class);
+        commandRegistry.put(CommandType.EXTERNAL,   ExternalCommand.class);
+        commandRegistry.put(CommandType.ASSIGNMENT, AssignmentCommand.class);
     }
 
     private CommandType nameToCommandType(String name) {
@@ -35,6 +36,7 @@ public class CommandFactory {
             case "wc":   return CommandType.WC;
             case "echo": return CommandType.ECHO;
             case "pwd":  return CommandType.PWD;
+            case "=":    return CommandType.ASSIGNMENT;
             default:     return CommandType.EXTERNAL;
         }
     }
@@ -46,5 +48,6 @@ public class CommandFactory {
         WC,
         ECHO,
         PWD,
+        ASSIGNMENT
     }
 }

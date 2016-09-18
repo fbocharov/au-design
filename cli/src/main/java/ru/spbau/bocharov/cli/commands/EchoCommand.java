@@ -1,5 +1,6 @@
 package ru.spbau.bocharov.cli.commands;
 
+import ru.spbau.bocharov.cli.common.Context;
 import ru.spbau.bocharov.cli.common.IO;
 
 import java.util.StringJoiner;
@@ -11,7 +12,7 @@ public class EchoCommand extends BaseCommand {
     }
 
     @Override
-    public void execute(IO io) {
+    public void execute(IO io, Context context) {
         StringJoiner joiner = new StringJoiner(" ", "", "\n");
         for (String arg: arguments) {
             joiner.add(removeQuotes(arg));
@@ -30,7 +31,7 @@ public class EchoCommand extends BaseCommand {
             if (str.charAt(i) != '\\') {
                 builder.append(str.charAt(i));
             } else if (i + 1 < str.length() && str.charAt(i + 1) == '"') {
-                // skip '/'
+                // skip escaper
                 builder.append(str.charAt(i + 1));
                 ++i;
             }

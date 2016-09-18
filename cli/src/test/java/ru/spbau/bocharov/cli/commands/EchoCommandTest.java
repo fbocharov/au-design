@@ -13,15 +13,14 @@ import static org.junit.Assert.*;
 public class EchoCommandTest extends CommandTestBase {
 
     @Test
-    public void shouldEchoSimpleText() throws NoSuchMethodException, InstantiationException,
-            IllegalAccessException, InvocationTargetException, IOException {
+    public void shouldEchoSimpleText() throws Exception {
         ByteArrayOutputStream out = new ByteArrayOutputStream();
         ByteArrayOutputStream err = new ByteArrayOutputStream();
         ICommand command = createCommand();
         String input = "this is simple text";
         command.addArguments(input);
 
-        command.execute(new IO(null, out, err));
+        command.execute(new IO(null, out, err), createContext());
 
         assertEquals(
                 input + "\n",
@@ -30,15 +29,14 @@ public class EchoCommandTest extends CommandTestBase {
     }
 
     @Test
-    public void shouldLeaveEscapedQuotes() throws NoSuchMethodException, InstantiationException,
-            IllegalAccessException, InvocationTargetException, IOException {
+    public void shouldLeaveEscapedQuotes() throws Exception {
         ByteArrayOutputStream out = new ByteArrayOutputStream();
         ByteArrayOutputStream err = new ByteArrayOutputStream();
         ICommand command = createCommand();
         String input = "\\\"string \\\" with escaped \\\" quotes\\\"";
         command.addArguments(input);
 
-        command.execute(new IO(null, out, err));
+        command.execute(new IO(null, out, err), createContext());
 
         assertEquals(
                 "\"string \" with escaped \" quotes\"\n",
@@ -47,15 +45,14 @@ public class EchoCommandTest extends CommandTestBase {
     }
 
     @Test
-    public void shouldRemoveUnescapedQuotes() throws NoSuchMethodException, InstantiationException,
-            IllegalAccessException, InvocationTargetException, IOException {
+    public void shouldRemoveUnescapedQuotes() throws Exception {
         ByteArrayOutputStream out = new ByteArrayOutputStream();
         ByteArrayOutputStream err = new ByteArrayOutputStream();
         ICommand command = createCommand();
         String input = "\"string \" with unescaped \" quotes\"";
         command.addArguments(input);
 
-        command.execute(new IO(null, out, err));
+        command.execute(new IO(null, out, err), createContext());
 
         assertEquals(
                 "string  with unescaped  quotes\n",
@@ -64,15 +61,14 @@ public class EchoCommandTest extends CommandTestBase {
     }
 
     @Test
-    public void shouldRemoveOnlyUnescapedQuotes() throws NoSuchMethodException, InstantiationException,
-            IllegalAccessException, InvocationTargetException, IOException {
+    public void shouldRemoveOnlyUnescapedQuotes() throws Exception {
         ByteArrayOutputStream out = new ByteArrayOutputStream();
         ByteArrayOutputStream err = new ByteArrayOutputStream();
         ICommand command = createCommand();
         String input = "\"string \\\" with different \" quotes\\\"";
         command.addArguments(input);
 
-        command.execute(new IO(null, out, err));
+        command.execute(new IO(null, out, err), createContext());
 
         assertEquals(
                 "string \" with different  quotes\"\n",
@@ -81,8 +77,7 @@ public class EchoCommandTest extends CommandTestBase {
     }
 
     @Test
-    public void shouldConcatenateOutput() throws NoSuchMethodException, InstantiationException,
-            IllegalAccessException, InvocationTargetException, IOException {
+    public void shouldConcatenateOutput() throws Exception {
         ByteArrayOutputStream out = new ByteArrayOutputStream();
         ByteArrayOutputStream err = new ByteArrayOutputStream();
         ICommand command = createCommand();
@@ -91,7 +86,7 @@ public class EchoCommandTest extends CommandTestBase {
         String input3 = "!";
         command.addArguments(input1, input2, input3);
 
-        command.execute(new IO(null, out, err));
+        command.execute(new IO(null, out, err), createContext());
 
         assertEquals(
                 new StringJoiner(" ", "", "\n").add(input1).add(input2).add(input3).toString(),

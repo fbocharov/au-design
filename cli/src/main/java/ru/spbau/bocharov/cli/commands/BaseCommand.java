@@ -16,4 +16,8 @@ public abstract class BaseCommand implements ICommand {
     public void addArguments(String... args) {
         Collections.addAll(arguments, args);
     }
+
+    public void addArguments(List<String> args) {
+        arguments.addAll(args);
+    }
 }

@@ -1,5 +1,6 @@
 package ru.spbau.bocharov.cli.commands;
 
+import ru.spbau.bocharov.cli.common.Context;
 import ru.spbau.bocharov.cli.common.IO;
 
 import java.io.IOException;
@@ -15,7 +16,7 @@ public class WCCommand extends BaseCommand {
     }
 
     @Override
-    public void execute(IO io) throws IOException {
+    public void execute(IO io, Context context) throws IOException {
         if (io.STDIN == null && arguments.isEmpty()) {
             io.STDERR.println("can't execute wc with empty input");
             return;

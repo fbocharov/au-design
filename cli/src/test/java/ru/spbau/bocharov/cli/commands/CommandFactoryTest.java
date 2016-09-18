@@ -25,5 +25,6 @@ public class CommandFactoryTest {
         assertTrue(factory.createCommand("pwd") instanceof PWDCommand);
         assertTrue(factory.createCommand("wc") instanceof WCCommand);
         assertTrue(factory.createCommand("ls") instanceof ExternalCommand);
+        assertTrue(factory.createCommand("=") instanceof AssignmentCommand);
     }
 }
