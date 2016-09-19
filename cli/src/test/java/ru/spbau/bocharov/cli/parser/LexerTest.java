@@ -65,6 +65,20 @@ public class LexerTest {
                 createLexer().tokenize("cmd1 \\\\", Parser.SPACE));
     }
 
+    @Test
+    public void shouldNotConsiderSpacesInsideEscapedQuotes() throws LexerException {
+        assertEquals(
+                Arrays.asList("cmd1", "\"", "\""),
+                createLexer().tokenize("cmd1 \\\"    \\\"", Parser.SPACE));
+    }
+
+    @Test
+    public void shouldNotSplitBySeparatorInsideStrongQuotes() throws LexerException {
+        assertEquals(
+                Collections.singletonList("cmd1 '|' cmd2"),
+                createLexer().tokenize("cmd1 '|' cmd2", Parser.PIPE));
+    }
+
     @Test(expected=LexerException.class)
     public void shouldThrowOnQuotesLeftOpen() throws LexerException {
         createLexer().tokenize("cmd1 \"", Parser.SPACE);

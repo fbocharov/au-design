@@ -20,8 +20,24 @@ public class ExecutorTest {
         IO io = new IO(null, stdout, stderr);
 
         List<ICommand> commands = new Parser().parse("echo hello, world!");
-        new Executor().execute(io, null, commands);
+        createExecutor().execute(io, null, commands);
 
         assertEquals("hello, world!\n", stdout.toString());
+    }
+
+    @Test
+    public void shouldExecuteSimplePipeline() throws Exception {
+        OutputStream stdout = new ByteArrayOutputStream();
+        OutputStream stderr = new ByteArrayOutputStream();
+        IO io = new IO(null, stdout, stderr);
+
+        List<ICommand> commands = new Parser().parse("echo hello, world! | wc");
+        createExecutor().execute(io, null, commands);
+
+        assertEquals("1 2 13\n", stdout.toString());
+    }
+
+    private Executor createExecutor() {
+        return new Executor();
     }
 }

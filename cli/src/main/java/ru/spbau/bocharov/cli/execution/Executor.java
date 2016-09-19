@@ -20,6 +20,7 @@ public class Executor {
             ByteArrayOutputStream stderr = new ByteArrayOutputStream();
 
             for (ICommand cmd : commands) {
+                stdout.reset();
                 IO newIo = new IO(stdin, stdout, stderr);
 
                 cmd.execute(newIo, context);
@@ -31,7 +32,6 @@ public class Executor {
                 }
 
                 stdin = new ByteArrayInputStream(stdout.toByteArray());
-                stdout.reset();
             }
         }
         io.STDOUT.write(stdout.toByteArray());
