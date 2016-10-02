@@ -45,7 +45,7 @@ public class ExecutorTest {
         OutputStream stderr = new ByteArrayOutputStream();
         IO io = new IO(null, stdout, stderr);
 
-        List<CommandWithArguments> commands = createParser().parse("echo \"hello, world!\"");
+        List<CommandWithArguments> commands = createParser().parse("echo \\\"hello, world!\\\"");
         createExecutor().execute(io, null, commands);
 
         assertEquals("\"hello, world!\"\n", stdout.toString());

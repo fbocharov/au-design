@@ -16,28 +16,8 @@ public class EchoCommand extends BaseCommand {
     public void execute(IO io, Context context) throws IOException {
         StringJoiner joiner = new StringJoiner(" ", "", "\n");
         for (String arg: arguments) {
-            joiner.add(removeQuotes(arg));
+            joiner.add(arg);
         }
         io.STDOUT.write(joiner.toString().getBytes());
-    }
-
-    private String removeQuotes(String str) {
-        StringBuilder builder = new StringBuilder();
-
-        for (int i = 0; i < str.length(); ++i) {
-            if (str.charAt(i) == '"') {
-                continue;
-            }
-
-            if (str.charAt(i) != '\\') {
-                builder.append(str.charAt(i));
-            } else if (i + 1 < str.length() && str.charAt(i + 1) == '"') {
-                // skip escaper
-                builder.append(str.charAt(i + 1));
-                ++i;
-            }
-        }
-
-        return builder.toString();
     }
 }

@@ -29,65 +29,33 @@ public class EchoCommandTest extends CommandTestBase {
     }
 
     @Test
-    public void shouldLeaveEscapedQuotes() throws Exception {
+    public void shouldEchoTextWithWeakQuotes() throws Exception {
         ByteArrayOutputStream out = new ByteArrayOutputStream();
         ByteArrayOutputStream err = new ByteArrayOutputStream();
         ICommand command = createCommand();
-        String input = "\\\"string \\\" with escaped \\\" quotes\\\"";
+        String input = "text with \"weak\" quotes";
         command.addArguments(input);
 
         command.execute(new IO(null, out, err), createContext());
 
         assertEquals(
-                "\"string \" with escaped \" quotes\"\n",
+                input + "\n",
                 out.toString());
         assertTrue(err.toString().isEmpty());
     }
 
     @Test
-    public void shouldRemoveUnescapedWeakQuotes() throws Exception {
+    public void shouldEchoTextWithStrongQuotes() throws Exception {
         ByteArrayOutputStream out = new ByteArrayOutputStream();
         ByteArrayOutputStream err = new ByteArrayOutputStream();
         ICommand command = createCommand();
-        String input = "\"string \" with unescaped \" quotes\"";
+        String input = "text with 'strong' quotes";
         command.addArguments(input);
 
         command.execute(new IO(null, out, err), createContext());
 
         assertEquals(
-                "string  with unescaped  quotes\n",
-                out.toString());
-        assertTrue(err.toString().isEmpty());
-    }
-
-//    @Test
-//    public void shouldRemoveUnescapedStrongQuotes() throws Exception {
-//        ByteArrayOutputStream out = new ByteArrayOutputStream();
-//        ByteArrayOutputStream err = new ByteArrayOutputStream();
-//        ICommand command = createCommand();
-//        String input = "'string ' with unescaped ' quotes'";
-//        command.addArguments(input);
-//
-//        command.execute(new IO(null, out, err), createContext());
-//
-//        assertEquals(
-//                "string  with unescaped  quotes\n",
-//                out.toString());
-//        assertTrue(err.toString().isEmpty());
-//    }
-
-    @Test
-    public void shouldRemoveOnlyUnescapedQuotes() throws Exception {
-        ByteArrayOutputStream out = new ByteArrayOutputStream();
-        ByteArrayOutputStream err = new ByteArrayOutputStream();
-        ICommand command = createCommand();
-        String input = "\"string \\\" with different \" quotes\\\"";
-        command.addArguments(input);
-
-        command.execute(new IO(null, out, err), createContext());
-
-        assertEquals(
-                "string \" with different  quotes\"\n",
+                input + "\n",
                 out.toString());
         assertTrue(err.toString().isEmpty());
     }

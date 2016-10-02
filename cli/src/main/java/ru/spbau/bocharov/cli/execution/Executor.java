@@ -46,45 +46,4 @@ public class Executor {
         });
         cmd.execute(io, context);
     }
-
-//    private static final char WEAK_QUOTE = '"';
-//    private static final char STRONG_QUOTE = '\'';
-//    private static final char VARIABLE_CHAR = '$';
-//
-//    private static String substitute(String arg, Context context) {
-//        StringBuilder result = new StringBuilder();
-//
-//        boolean insideStrongQuote = false;
-//        for (int i = 0; i < arg.length(); ++i) {
-//            if (arg.charAt(i) == STRONG_QUOTE) {
-//                insideStrongQuote = !insideStrongQuote;
-//                continue;
-//            }
-//
-//            if (arg.charAt(i) == WEAK_QUOTE) {
-//                continue;
-//            }
-//
-//            if (arg.charAt(i) == WEAK_QUOTE) {
-//                i++;
-//                while (i < arg.length() && arg.charAt(i) != WEAK_QUOTE) {
-//                    if (arg.charAt(i) == VARIABLE_CHAR) {
-//                        StringBuilder varName = new StringBuilder();
-//                        while (i + 1 < arg.length() && Character.isLetterOrDigit(arg.charAt(i + 1))) {
-//                            i++;
-//                            varName.append(arg.charAt(i));
-//                        }
-//
-//                        result.append(context.get(varName.toString()));
-//                    } else {
-//                        result.append(arg.charAt(i));
-//                    }
-//                }
-//            } else if (arg.charAt(i) != STRONG_QUOTE) {
-//                result.append(arg.charAt(i));
-//            }
-//        }
-//
-//        return result.toString();
-//    }
 }

@@ -82,9 +82,9 @@ public class Parser {
         if (isQuote(bodyWithQuotes.charAt(0))) {
             body = bodyWithQuotes.substring(1, bodyWithQuotes.length() - 1);
         }
-        body = removeBackslashes(body);
         return body.charAt(0) == ParseUtils.STRONG_QUOTE ?
-                new StrongQuoteString(body) : new WeakQuoteString(body);
+                new StrongQuoteString(removeBackslashes(body)) :
+                new WeakQuoteString(removeBackslashes(body));
     }
 
     private static String removeBackslashes(String str) {
