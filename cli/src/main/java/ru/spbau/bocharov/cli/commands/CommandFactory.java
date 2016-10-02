@@ -1,11 +1,15 @@
 package ru.spbau.bocharov.cli.commands;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import java.lang.reflect.InvocationTargetException;
 import java.util.HashMap;
 import java.util.Map;
 
 public class CommandFactory {
 
+    private static final Logger log = LogManager.getLogger(CommandFactory.class);
     private static final CommandFactory instance = new CommandFactory();
 
     public static CommandFactory getInstance() {
@@ -14,6 +18,7 @@ public class CommandFactory {
 
     public ICommand createCommand(String commandName) throws IllegalAccessException, InstantiationException,
             NoSuchMethodException, InvocationTargetException {
+        log.info("Create command " + commandName);
         return (ICommand) commandRegistry.get(nameToCommandType(commandName))
                 .getConstructor(String.class)
                 .newInstance(commandName);

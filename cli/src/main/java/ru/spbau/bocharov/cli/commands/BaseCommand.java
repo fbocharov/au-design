@@ -13,11 +13,13 @@ public abstract class BaseCommand implements ICommand {
         name = commandName;
     }
 
+    @Override
     public void addArguments(String... args) {
         Collections.addAll(arguments, args);
     }
 
-    public void addArguments(List<String> args) {
-        arguments.addAll(args);
+    @Override
+    public String getName() {
+        return name;
     }
 }

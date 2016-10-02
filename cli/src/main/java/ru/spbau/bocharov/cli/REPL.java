@@ -1,6 +1,7 @@
 package ru.spbau.bocharov.cli;
 
-import ru.spbau.bocharov.cli.commands.ICommand;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import ru.spbau.bocharov.cli.common.CommandWithArguments;
 import ru.spbau.bocharov.cli.common.IO;
 import ru.spbau.bocharov.cli.execution.Executor;
@@ -10,6 +11,8 @@ import java.util.List;
 import java.util.Scanner;
 
 public class REPL {
+
+    private static final Logger log = LogManager.getLogger(REPL.class);
 
     public static void main(String[] args) {
         printGreeting();
@@ -21,6 +24,7 @@ public class REPL {
         Executor executor = new Executor();
         IO io = new IO(System.in, System.out, System.err);
 
+        log.info("Start REPL...");
         while (true) {
             String input = getUserInput();
             if (input.isEmpty()) {
@@ -32,8 +36,10 @@ public class REPL {
                 executor.execute(io, null, commands);
             } catch (Exception e) {
                 printError(e.getMessage());
+                log.error("Exception in REPL:", e);
             }
         }
+        log.info("End REPL");
     }
 
     private static String getUserInput() {

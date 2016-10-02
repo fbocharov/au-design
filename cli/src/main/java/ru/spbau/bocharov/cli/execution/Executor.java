@@ -1,5 +1,7 @@
 package ru.spbau.bocharov.cli.execution;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import ru.spbau.bocharov.cli.commands.ICommand;
 import ru.spbau.bocharov.cli.common.CommandWithArguments;
 import ru.spbau.bocharov.cli.common.Context;
@@ -11,6 +13,8 @@ import java.io.InputStream;
 import java.util.List;
 
 public class Executor {
+
+    private static final Logger log = LogManager.getLogger(Executor.class);
 
     public void execute(IO io, Context context, List<CommandWithArguments> commands) throws Exception {
         ByteArrayOutputStream stdout = new ByteArrayOutputStream();
@@ -40,6 +44,8 @@ public class Executor {
     }
 
     private void executeOneCommand(CommandWithArguments cmdWithArgs, IO io, Context context) throws Exception {
+        log.info("Executing command " + cmdWithArgs.command.getName());
+
         ICommand cmd = cmdWithArgs.command;
         cmdWithArgs.arguments.forEach(arg -> {
             cmd.addArguments(arg.substitute(context));
