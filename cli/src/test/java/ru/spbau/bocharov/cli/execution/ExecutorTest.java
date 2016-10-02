@@ -39,19 +39,31 @@ public class ExecutorTest {
         assertEquals("1 2 13\n", stdout.toString());
     }
 
-//    @Test
-//    public void shouldSubstitueBeforeExecution() throws Exception {
-//        OutputStream stdout = new ByteArrayOutputStream();
-//        OutputStream stderr = new ByteArrayOutputStream();
-//        IO io = new IO(null, stdout, stderr);
-//
-//        Context context = new Context();
-//        context.put("x", "5");
-//        List<CommandWithArguments> commands = createParser().parse("echo $x");
-//        createExecutor().execute(io, context, commands);
-//
-//        assertEquals("5\n", stdout.toString());
-//    }
+    @Test
+    public void shouldExecuteCommandWithQuoteArgs() throws Exception {
+        OutputStream stdout = new ByteArrayOutputStream();
+        OutputStream stderr = new ByteArrayOutputStream();
+        IO io = new IO(null, stdout, stderr);
+
+        List<CommandWithArguments> commands = createParser().parse("echo \"hello, world!\"");
+        createExecutor().execute(io, null, commands);
+
+        assertEquals("\"hello, world!\"\n", stdout.toString());
+    }
+
+    @Test
+    public void shouldSubstitueBeforeExecution() throws Exception {
+        OutputStream stdout = new ByteArrayOutputStream();
+        OutputStream stderr = new ByteArrayOutputStream();
+        IO io = new IO(null, stdout, stderr);
+
+        Context context = new Context();
+        context.put("x", "5");
+        List<CommandWithArguments> commands = createParser().parse("echo $x");
+        createExecutor().execute(io, context, commands);
+
+        assertEquals("5\n", stdout.toString());
+    }
 
     private Executor createExecutor() {
         return new Executor();

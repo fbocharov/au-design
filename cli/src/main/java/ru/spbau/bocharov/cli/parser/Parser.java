@@ -69,7 +69,9 @@ public class Parser {
                 }
             }
         }
-        quoteStrings.add(createQuoteString(quote.toString()));
+        if (!quote.toString().isEmpty()) {
+            quoteStrings.add(createQuoteString(quote.toString()));
+        }
 
         return quoteStrings.size() == 1 ?
                 quoteStrings.get(0) : new ComplexQuoteString(quoteStrings);
