@@ -20,9 +20,12 @@ public class ExternalCommand extends BaseCommand {
         try {
             Process process = Runtime.getRuntime().exec(createShellCommand());
             pipeStream(io.STDIN, process.getOutputStream());
+            process.waitFor();
             pipeStream(process.getInputStream(), io.STDOUT);
         } catch (IOException e) {
             e.printStackTrace(new PrintStream(io.STDERR));
+        } catch (InterruptedException e) {
+            e.printStackTrace();
         }
     }
 
