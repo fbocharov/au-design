@@ -1,6 +1,7 @@
 package ru.spbau.bocharov.cli;
 
 import ru.spbau.bocharov.cli.commands.ICommand;
+import ru.spbau.bocharov.cli.common.CommandWithArguments;
 import ru.spbau.bocharov.cli.common.IO;
 import ru.spbau.bocharov.cli.execution.Executor;
 import ru.spbau.bocharov.cli.parser.Parser;
@@ -21,14 +22,13 @@ public class REPL {
         IO io = new IO(System.in, System.out, System.err);
 
         while (true) {
-            printPrompt();
             String input = getUserInput();
             if (input.isEmpty()) {
                 break;
             }
 
             try {
-                List<ICommand> commands = parser.parse(input);
+                List<CommandWithArguments> commands = parser.parse(input);
                 executor.execute(io, null, commands);
             } catch (Exception e) {
                 printError(e.getMessage());
@@ -39,6 +39,7 @@ public class REPL {
     private static String getUserInput() {
         Scanner sc = new Scanner(System.in);
         int emptyLineCount = 0;
+        printPrompt();
         while (sc.hasNextLine()) {
             String input = sc.nextLine();
             if (!input.isEmpty()) {
@@ -48,6 +49,7 @@ public class REPL {
             if (emptyLineCount == 2) {
                 break;
             }
+            printPrompt();
         }
         return "";
     }

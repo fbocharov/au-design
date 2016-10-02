@@ -2,20 +2,28 @@ package ru.spbau.bocharov.cli.parser;
 
 import ru.spbau.bocharov.cli.commands.CommandFactory;
 import ru.spbau.bocharov.cli.commands.ICommand;
+import ru.spbau.bocharov.cli.common.CommandWithArguments;
+import ru.spbau.bocharov.cli.common.QuoteString;
+import ru.spbau.bocharov.cli.parser.quotes.ComplexQuoteString;
+import ru.spbau.bocharov.cli.parser.quotes.StrongQuoteString;
+import ru.spbau.bocharov.cli.parser.quotes.WeakQuoteString;
 
 import java.lang.reflect.InvocationTargetException;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.stream.Collectors;
+
+import static ru.spbau.bocharov.cli.parser.ParseUtils.*;
 
 public class Parser {
 
-    public static final char PIPE  = '|';
-    public static final char SPACE = ' ';
-    public static final char ASSIGNMENT = '=';
+    static final char PIPE  = '|';
+    static final char SPACE = ' ';
+    static final char ASSIGNMENT = '=';
 
-    public List<ICommand> parse(String input) throws LexerException, InvocationTargetException,
+    public List<CommandWithArguments> parse(String input) throws LexerException, InvocationTargetException,
             NoSuchMethodException, InstantiationException, IllegalAccessException {
-        List<ICommand> result = new LinkedList<>();
+        List<CommandWithArguments> result = new LinkedList<>();
 
         Lexer lexer = new Lexer();
         CommandFactory factory = CommandFactory.getInstance();
@@ -25,20 +33,68 @@ public class Parser {
             assert !cmdWithArgs.isEmpty();
 
             String cmd = cmdWithArgs.get(0);
+            ICommand command;
+            List<String> arguments;
             if (cmd.indexOf(ASSIGNMENT) != -1) {
-                ICommand assignment = factory.createCommand(String.valueOf(ASSIGNMENT));
-                assignment.addArguments(lexer.tokenize(cmd, ASSIGNMENT));
-                result.add(assignment);
+                command = factory.createCommand(String.valueOf(ASSIGNMENT));
+                arguments = lexer.tokenize(cmd, ASSIGNMENT);
             } else {
-                // TODO: substitute
-                ICommand command = factory.createCommand(cmd);
-                if (cmdWithArgs.size() > 1) {
-                    command.addArguments(cmdWithArgs.subList(1, cmdWithArgs.size()));
-                }
-                result.add(command);
+                command = factory.createCommand(cmd);
+                arguments = cmdWithArgs.subList(1, cmdWithArgs.size());
             }
+            result.add(
+                    new CommandWithArguments(
+                            command,
+                            arguments.stream().map(Parser::toQuoteString).collect(Collectors.toList())
+                    ));
         }
 
         return result;
+    }
+
+    private static QuoteString toQuoteString(String str) {
+        List<QuoteString> quoteStrings = new LinkedList<>();
+
+        StringBuilder quote = new StringBuilder();
+        boolean insideQuote = false;
+        for (int i = 0; i < str.length(); ++i) {
+            char c = str.charAt(i);
+            quote.append(c);
+            if (isQuote(c) && !isEscapedChar(str, i)) {
+                insideQuote = !insideQuote;
+
+                if (!insideQuote) {
+                    quoteStrings.add(createQuoteString(quote.toString()));
+                    quote = new StringBuilder();
+                }
+            }
+        }
+        quoteStrings.add(createQuoteString(quote.toString()));
+
+        return quoteStrings.size() == 1 ?
+                quoteStrings.get(0) : new ComplexQuoteString(quoteStrings);
+    }
+
+    private static QuoteString createQuoteString(String bodyWithQuotes) {
+        String body = bodyWithQuotes;
+        if (isQuote(bodyWithQuotes.charAt(0))) {
+            body = bodyWithQuotes.substring(1, bodyWithQuotes.length() - 1);
+        }
+        body = removeBackslashes(body);
+        return body.charAt(0) == ParseUtils.STRONG_QUOTE ?
+                new StrongQuoteString(body) : new WeakQuoteString(body);
+    }
+
+    private static String removeBackslashes(String str) {
+        StringBuilder result = new StringBuilder();
+
+        for (int i = 0; i < str.length(); ++i) {
+            char c = str.charAt(i);
+            if (c != '\\' || isEscapedChar(str, i)) {
+                result.append(c);
+            }
+        }
+
+        return result.toString();
     }
 }

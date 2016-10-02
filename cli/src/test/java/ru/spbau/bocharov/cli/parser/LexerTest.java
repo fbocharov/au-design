@@ -33,7 +33,7 @@ public class LexerTest {
     @Test
     public void shouldTokenizeSingleCommandWithEscapedQuotes() throws LexerException {
         assertEquals(
-                Arrays.asList("cmd1", "arg1", "\"arg2", "\"", "'arg3'"),
+                Arrays.asList("cmd1", "arg1", "\\\"arg2", "\\\"", "'arg3'"),
                 createLexer().tokenize("cmd1 arg1 \\\"arg2   \\\" 'arg3'", Parser.SPACE));
     }
 
@@ -45,6 +45,13 @@ public class LexerTest {
     }
 
     @Test
+    public void shouldTokenizePipelineWithPipeInWeakQuote() throws LexerException {
+        assertEquals(
+                Arrays.asList("cmd1", "arg1", "\"arg2  |  \"", "arg3"),
+                createLexer().tokenize("cmd1 arg1 \"arg2  |  \" arg3", Parser.SPACE));
+    }
+
+    @Test
     public void shouldTokenizeSimplePipeline() throws LexerException {
         assertEquals(
                 Arrays.asList("cmd1", "cmd2", "cmd3"),
@@ -52,23 +59,23 @@ public class LexerTest {
     }
 
     @Test
-    public void shouldParsePipelineWithSimpleArguments() throws LexerException {
+    public void shouldTokenizePipelineWithSimpleArguments() throws LexerException {
         assertEquals(
                 Arrays.asList("cmd1 arg1 arg2   arg3", "cmd2 arg1", "cmd3  arg1  arg2"),
                 createLexer().tokenize("cmd1 arg1 arg2   arg3 | cmd2 arg1 | cmd3  arg1  arg2", Parser.PIPE));
     }
 
     @Test
-    public void shouldKeepEscapedBackslash() throws LexerException {
+    public void shouldKeepEscapedBackslashWithEscaper() throws LexerException {
         assertEquals(
-                Arrays.asList("cmd1", "\\"),
+                Arrays.asList("cmd1", "\\\\"),
                 createLexer().tokenize("cmd1 \\\\", Parser.SPACE));
     }
 
     @Test
     public void shouldNotConsiderSpacesInsideEscapedQuotes() throws LexerException {
         assertEquals(
-                Arrays.asList("cmd1", "\"", "\""),
+                Arrays.asList("cmd1", "\\\"", "\\\""),
                 createLexer().tokenize("cmd1 \\\"    \\\"", Parser.SPACE));
     }
 

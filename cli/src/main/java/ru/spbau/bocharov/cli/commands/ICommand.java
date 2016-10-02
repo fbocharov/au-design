@@ -10,6 +10,4 @@ public interface ICommand {
     void execute(IO io, Context context) throws Exception;
 
     void addArguments(String... args);
-
-    void addArguments(List<String> args);
 }

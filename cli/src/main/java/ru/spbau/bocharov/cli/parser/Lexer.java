@@ -3,6 +3,9 @@ package ru.spbau.bocharov.cli.parser;
 import java.util.LinkedList;
 import java.util.List;
 
+import static ru.spbau.bocharov.cli.parser.ParseUtils.isEscapedChar;
+import static ru.spbau.bocharov.cli.parser.ParseUtils.isQuote;
+
 public class Lexer {
 
     public List<String> tokenize(String line, char separator) throws LexerException {
@@ -33,9 +36,7 @@ public class Lexer {
                 prevQuote = c;
             }
 
-            if (c != '\\' || currentIsEscaped) {
-                token.append(c);
-            }
+            token.append(c);
         }
         String t = token.toString().trim();
         if (!t.isEmpty()) {
@@ -47,25 +48,5 @@ public class Lexer {
         }
 
         return result;
-    }
-
-    private boolean isEscapedChar(String line, int i) {
-        int backslashCount = 0;
-        for (int j = i - 1; j >= 0 && line.charAt(j) == '\\'; --j) {
-            backslashCount++;
-        }
-        return (backslashCount % 2) == 1;
-    }
-
-    private boolean isQuote(char c) {
-        return isStrongQuote(c) || isWeakQuote(c);
-    }
-
-    private boolean isStrongQuote(char c) {
-        return c == '\'';
-    }
-
-    private boolean isWeakQuote(char c) {
-        return c == '"';
     }
 }

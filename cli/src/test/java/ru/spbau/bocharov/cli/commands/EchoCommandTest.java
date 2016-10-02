@@ -45,7 +45,7 @@ public class EchoCommandTest extends CommandTestBase {
     }
 
     @Test
-    public void shouldRemoveUnescapedQuotes() throws Exception {
+    public void shouldRemoveUnescapedWeakQuotes() throws Exception {
         ByteArrayOutputStream out = new ByteArrayOutputStream();
         ByteArrayOutputStream err = new ByteArrayOutputStream();
         ICommand command = createCommand();
@@ -59,6 +59,22 @@ public class EchoCommandTest extends CommandTestBase {
                 out.toString());
         assertTrue(err.toString().isEmpty());
     }
+
+//    @Test
+//    public void shouldRemoveUnescapedStrongQuotes() throws Exception {
+//        ByteArrayOutputStream out = new ByteArrayOutputStream();
+//        ByteArrayOutputStream err = new ByteArrayOutputStream();
+//        ICommand command = createCommand();
+//        String input = "'string ' with unescaped ' quotes'";
+//        command.addArguments(input);
+//
+//        command.execute(new IO(null, out, err), createContext());
+//
+//        assertEquals(
+//                "string  with unescaped  quotes\n",
+//                out.toString());
+//        assertTrue(err.toString().isEmpty());
+//    }
 
     @Test
     public void shouldRemoveOnlyUnescapedQuotes() throws Exception {
