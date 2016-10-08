@@ -5,7 +5,6 @@ import ru.spbau.bocharov.cli.common.Context;
 import ru.spbau.bocharov.cli.common.IO;
 
 import java.io.ByteArrayOutputStream;
-import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.net.URL;
 
@@ -20,7 +19,7 @@ public abstract class CommandTestBase {
         assertTrue(!stream.toString().isEmpty());
     }
 
-    protected abstract ICommand createCommand() throws InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException;
+    protected abstract Command createCommand() throws InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException;
 
     protected String getFilePath(String filename) {
         URL resource = ClassLoader.getSystemClassLoader().getResource(filename);

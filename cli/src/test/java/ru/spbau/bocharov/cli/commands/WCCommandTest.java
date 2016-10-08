@@ -5,7 +5,6 @@ import ru.spbau.bocharov.cli.common.IO;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
-import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 
 import static org.junit.Assert.*;
@@ -30,7 +29,7 @@ public class WCCommandTest extends CommandTestBase {
     public void shouldCountInFiles() throws Exception {
         ByteArrayOutputStream out = new ByteArrayOutputStream();
         ByteArrayOutputStream err = new ByteArrayOutputStream();
-        ICommand command = createCommand();
+        Command command = createCommand();
         command.addArguments(
                 getFilePath("test1.txt"),
                 getFilePath("test2.txt"));
@@ -47,7 +46,7 @@ public class WCCommandTest extends CommandTestBase {
 
 
     @Override
-    protected ICommand createCommand() throws InvocationTargetException, NoSuchMethodException,
+    protected Command createCommand() throws InvocationTargetException, NoSuchMethodException,
             InstantiationException, IllegalAccessException {
         return CommandFactory.getInstance().createCommand("wc");
     }

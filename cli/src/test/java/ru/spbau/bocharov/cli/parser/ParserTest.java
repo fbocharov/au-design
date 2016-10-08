@@ -2,15 +2,12 @@ package ru.spbau.bocharov.cli.parser;
 
 import org.junit.Test;
 import ru.spbau.bocharov.cli.commands.CatCommand;
-import ru.spbau.bocharov.cli.commands.ICommand;
 import ru.spbau.bocharov.cli.commands.PWDCommand;
 import ru.spbau.bocharov.cli.commands.WCCommand;
 import ru.spbau.bocharov.cli.common.CommandWithArguments;
 import ru.spbau.bocharov.cli.common.Context;
 
 import java.lang.reflect.InvocationTargetException;
-import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
 
 import static org.junit.Assert.*;

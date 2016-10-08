@@ -15,7 +15,7 @@ public class CatCommandTest extends CommandTestBase {
     public void shouldCatFile() throws Exception {
         ByteArrayOutputStream out = new ByteArrayOutputStream();
         ByteArrayOutputStream err = new ByteArrayOutputStream();
-        ICommand command = createCommand();
+        Command command = createCommand();
         command.addArguments(getFilePath("test1.txt"));
 
         command.execute(new IO(null, out, err), createContext());
@@ -44,7 +44,7 @@ public class CatCommandTest extends CommandTestBase {
     }
 
     @Override
-    protected ICommand createCommand() throws InvocationTargetException, NoSuchMethodException,
+    protected Command createCommand() throws InvocationTargetException, NoSuchMethodException,
             InstantiationException, IllegalAccessException {
         return CommandFactory.getInstance().createCommand("cat");
     }

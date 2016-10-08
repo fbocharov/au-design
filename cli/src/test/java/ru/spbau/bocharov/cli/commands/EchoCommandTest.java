@@ -4,7 +4,6 @@ import org.junit.Test;
 import ru.spbau.bocharov.cli.common.IO;
 
 import java.io.ByteArrayOutputStream;
-import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.util.StringJoiner;
 
@@ -16,7 +15,7 @@ public class EchoCommandTest extends CommandTestBase {
     public void shouldEchoSimpleText() throws Exception {
         ByteArrayOutputStream out = new ByteArrayOutputStream();
         ByteArrayOutputStream err = new ByteArrayOutputStream();
-        ICommand command = createCommand();
+        Command command = createCommand();
         String input = "this is simple text";
         command.addArguments(input);
 
@@ -32,7 +31,7 @@ public class EchoCommandTest extends CommandTestBase {
     public void shouldEchoTextWithWeakQuotes() throws Exception {
         ByteArrayOutputStream out = new ByteArrayOutputStream();
         ByteArrayOutputStream err = new ByteArrayOutputStream();
-        ICommand command = createCommand();
+        Command command = createCommand();
         String input = "text with \"weak\" quotes";
         command.addArguments(input);
 
@@ -48,7 +47,7 @@ public class EchoCommandTest extends CommandTestBase {
     public void shouldEchoTextWithStrongQuotes() throws Exception {
         ByteArrayOutputStream out = new ByteArrayOutputStream();
         ByteArrayOutputStream err = new ByteArrayOutputStream();
-        ICommand command = createCommand();
+        Command command = createCommand();
         String input = "text with 'strong' quotes";
         command.addArguments(input);
 
@@ -64,7 +63,7 @@ public class EchoCommandTest extends CommandTestBase {
     public void shouldConcatenateOutput() throws Exception {
         ByteArrayOutputStream out = new ByteArrayOutputStream();
         ByteArrayOutputStream err = new ByteArrayOutputStream();
-        ICommand command = createCommand();
+        Command command = createCommand();
         String input1 = "hello";
         String input2 = "world";
         String input3 = "!";
@@ -79,7 +78,7 @@ public class EchoCommandTest extends CommandTestBase {
     }
 
     @Override
-    protected ICommand createCommand() throws InvocationTargetException, NoSuchMethodException,
+    protected Command createCommand() throws InvocationTargetException, NoSuchMethodException,
             InstantiationException, IllegalAccessException {
         return CommandFactory.getInstance().createCommand("echo");
     }

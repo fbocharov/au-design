@@ -23,7 +23,7 @@ public class AssignmentCommandTest {
     @Test
     public void shouldAddValueToContext() throws Exception {
         Context c = createContext();
-        ICommand cmd = createCommand();
+        Command cmd = createCommand();
         cmd.addArguments("name", "value");
 
         cmd.execute(null, c);
@@ -35,7 +35,7 @@ public class AssignmentCommandTest {
     public void shouldUpdateValueInContext() throws Exception {
         Context c = createContext();
         c.put("name", "value1");
-        ICommand cmd = createCommand();
+        Command cmd = createCommand();
         cmd.addArguments("name", "value2");
 
         cmd.execute(null, c);
@@ -43,7 +43,7 @@ public class AssignmentCommandTest {
         assertEquals(c.get("name"), "value2");
     }
 
-    private ICommand createCommand() throws InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException {
+    private Command createCommand() throws InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException {
         return CommandFactory.getInstance().createCommand("=");
     }
 

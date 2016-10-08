@@ -1,7 +1,6 @@
 package ru.spbau.bocharov.cli.execution;
 
 import org.junit.Test;
-import ru.spbau.bocharov.cli.commands.ICommand;
 import ru.spbau.bocharov.cli.common.CommandWithArguments;
 import ru.spbau.bocharov.cli.common.Context;
 import ru.spbau.bocharov.cli.common.IO;
