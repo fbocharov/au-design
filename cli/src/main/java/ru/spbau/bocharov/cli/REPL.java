@@ -3,6 +3,7 @@ package ru.spbau.bocharov.cli;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import ru.spbau.bocharov.cli.common.CommandWithArguments;
+import ru.spbau.bocharov.cli.common.Context;
 import ru.spbau.bocharov.cli.common.IO;
 import ru.spbau.bocharov.cli.execution.Executor;
 import ru.spbau.bocharov.cli.parser.Parser;
@@ -22,6 +23,7 @@ public class REPL {
     private static void loop() {
         Parser parser = new Parser();
         Executor executor = new Executor();
+        Context context = new Context();
         IO io = new IO(System.in, System.out, System.err);
 
         log.info("Start REPL...");
@@ -33,7 +35,7 @@ public class REPL {
 
             try {
                 List<CommandWithArguments> commands = parser.parse(input);
-                executor.execute(io, null, commands);
+                executor.execute(io, context, commands);
             } catch (Exception e) {
                 printError(e.getMessage());
                 log.error("Exception in REPL:", e);
