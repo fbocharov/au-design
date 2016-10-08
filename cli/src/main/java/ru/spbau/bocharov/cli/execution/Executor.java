@@ -2,7 +2,7 @@ package ru.spbau.bocharov.cli.execution;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import ru.spbau.bocharov.cli.commands.ICommand;
+import ru.spbau.bocharov.cli.commands.Command;
 import ru.spbau.bocharov.cli.common.CommandWithArguments;
 import ru.spbau.bocharov.cli.common.Context;
 import ru.spbau.bocharov.cli.common.IO;
@@ -46,7 +46,7 @@ public class Executor {
     private void executeOneCommand(CommandWithArguments cmdWithArgs, IO io, Context context) throws Exception {
         log.info("Executing command " + cmdWithArgs.command.getName());
 
-        ICommand cmd = cmdWithArgs.command;
+        Command cmd = cmdWithArgs.command;
         cmdWithArgs.arguments.forEach(arg -> {
             cmd.addArguments(arg.substitute(context));
         });

@@ -1,7 +1,7 @@
 package ru.spbau.bocharov.cli.parser;
 
 import ru.spbau.bocharov.cli.commands.CommandFactory;
-import ru.spbau.bocharov.cli.commands.ICommand;
+import ru.spbau.bocharov.cli.commands.Command;
 import ru.spbau.bocharov.cli.common.CommandWithArguments;
 import ru.spbau.bocharov.cli.common.QuoteString;
 import ru.spbau.bocharov.cli.parser.quotes.ComplexQuoteString;
@@ -33,7 +33,7 @@ public class Parser {
             assert !cmdWithArgs.isEmpty();
 
             String cmd = cmdWithArgs.get(0);
-            ICommand command;
+            Command command;
             List<String> arguments;
             if (cmd.indexOf(ASSIGNMENT) != -1) {
                 command = factory.createCommand(String.valueOf(ASSIGNMENT));
