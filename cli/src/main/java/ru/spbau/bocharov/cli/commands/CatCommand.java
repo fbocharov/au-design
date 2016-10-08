@@ -2,6 +2,7 @@ package ru.spbau.bocharov.cli.commands;
 
 import ru.spbau.bocharov.cli.common.Context;
 import ru.spbau.bocharov.cli.common.IO;
+import ru.spbau.bocharov.cli.utils.IOUtils;
 
 import java.io.IOException;
 import java.io.PrintStream;
@@ -10,14 +11,25 @@ import java.nio.file.Paths;
 import java.util.Scanner;
 import java.util.stream.Stream;
 
+
+/**
+ * Class representing UNIX cat command
+ */
 public class CatCommand extends BaseCommand {
 
     public CatCommand(String commandName) {
         super(commandName);
     }
 
+    /**
+     * Uses arguments as file names if any were provided,
+     * otherwise reads data from io.STDIN
+     *
+     * @param io stdin, stdout and stderr of command
+     * @param context some variables defined earlie
+     */
     @Override
-    public void execute(IO io, Context context) {
+    public void execute(IO io, Context context) throws IOException {
         PrintStream stdout = new PrintStream(io.STDOUT);
         PrintStream stderr = new PrintStream(io.STDERR);
 
@@ -30,27 +42,11 @@ public class CatCommand extends BaseCommand {
             for (String filePath : arguments) {
                 try (Stream<String> stream = Files.lines(Paths.get(filePath))) {
                     stream.forEach(stdout::println);
-                } catch (IOException e) {
-                    e.printStackTrace(stderr);
                 }
             }
         } else {
             assert io.STDIN != null;
-
-            Scanner sc = new Scanner(io.STDIN);
-            int emptyLineCount = 0;
-            while (sc.hasNextLine()) {
-                String line = sc.nextLine();
-                if (line.isEmpty()) {
-                    emptyLineCount++;
-                    if (emptyLineCount == 2) {
-                        break;
-                    }
-                }
-
-                stdout.println(line);
-            }
+            IOUtils.interactive(io.STDIN, stdout::println);
         }
-
     }
 }

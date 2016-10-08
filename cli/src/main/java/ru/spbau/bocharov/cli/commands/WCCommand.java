@@ -2,6 +2,7 @@ package ru.spbau.bocharov.cli.commands;
 
 import ru.spbau.bocharov.cli.common.Context;
 import ru.spbau.bocharov.cli.common.IO;
+import ru.spbau.bocharov.cli.utils.IOUtils;
 
 import java.io.IOException;
 import java.io.PrintStream;
@@ -49,23 +50,11 @@ public class WCCommand extends BaseCommand {
             }
         } else {
             Counters counters = new Counters();
-
-            assert io.STDIN != null;
-            Scanner sc = new Scanner(io.STDIN);
-            int emptyLineCount = 0;
-            while (sc.hasNextLine()) {
-                String line = sc.nextLine();
-                if (line.isEmpty()) {
-                    emptyLineCount++;
-                    if (emptyLineCount == 2) {
-                        break;
-                    }
-                }
-
+            IOUtils.interactive(io.STDIN, line -> {
                 counters.lineCount++;
                 counters.wordCount += line.split(" ").length;
                 counters.byteCount += line.length();
-            }
+            });
             printCounters(stdout, counters);
         }
     }
