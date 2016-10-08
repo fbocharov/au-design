@@ -82,7 +82,7 @@ public class Parser {
         if (isQuote(bodyWithQuotes.charAt(0))) {
             body = bodyWithQuotes.substring(1, bodyWithQuotes.length() - 1);
         }
-        return body.charAt(0) == ParseUtils.STRONG_QUOTE ?
+        return bodyWithQuotes.charAt(0) == ParseUtils.STRONG_QUOTE ?
                 new StrongQuoteString(removeBackslashes(body)) :
                 new WeakQuoteString(removeBackslashes(body));
     }
