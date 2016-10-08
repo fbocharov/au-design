@@ -10,49 +10,36 @@ import java.util.Map;
 public class CommandFactory {
 
     private static final Logger log = LogManager.getLogger(CommandFactory.class);
+
     private static final CommandFactory instance = new CommandFactory();
+    private static final Class<ExternalCommand> EXTERNAL_COMMAND_CLASS = ExternalCommand.class;
 
     public static CommandFactory getInstance() {
         return instance;
     }
 
-    public ICommand createCommand(String commandName) throws IllegalAccessException, InstantiationException,
+    public Command createCommand(String commandName) throws IllegalAccessException, InstantiationException,
             NoSuchMethodException, InvocationTargetException {
+
         log.info("Create command " + commandName);
-        return (ICommand) commandRegistry.get(nameToCommandType(commandName))
+
+        if (!commandRegistry.containsKey(commandName)) {
+            return EXTERNAL_COMMAND_CLASS.getConstructor(String.class).newInstance(commandName);
+        }
+
+        return (Command) commandRegistry.get(commandName)
                 .getConstructor(String.class)
                 .newInstance(commandName);
     }
 
-    private Map<CommandType, Class> commandRegistry = new HashMap<>();
+    private Map<String, Class> commandRegistry = new HashMap<>();
 
     private CommandFactory() {
-        commandRegistry.put(CommandType.CAT,        CatCommand.class);
-        commandRegistry.put(CommandType.WC,         WCCommand.class);
-        commandRegistry.put(CommandType.ECHO,       EchoCommand.class);
-        commandRegistry.put(CommandType.PWD,        PWDCommand.class);
-        commandRegistry.put(CommandType.EXTERNAL,   ExternalCommand.class);
-        commandRegistry.put(CommandType.ASSIGNMENT, AssignmentCommand.class);
-    }
-
-    private CommandType nameToCommandType(String name) {
-        switch (name) {
-            case "cat":  return CommandType.CAT;
-            case "wc":   return CommandType.WC;
-            case "echo": return CommandType.ECHO;
-            case "pwd":  return CommandType.PWD;
-            case "=":    return CommandType.ASSIGNMENT;
-            default:     return CommandType.EXTERNAL;
-        }
-    }
-
-    private enum CommandType {
-        EXTERNAL,
-
-        CAT,
-        WC,
-        ECHO,
-        PWD,
-        ASSIGNMENT
+        commandRegistry.put("cat",  CatCommand.class);
+        commandRegistry.put("wc",   WCCommand.class);
+        commandRegistry.put("echo", EchoCommand.class);
+        commandRegistry.put("pwd",  PWDCommand.class);
+        commandRegistry.put("grep", GrepCommand.class);
+        commandRegistry.put("=",    AssignmentCommand.class);
     }
 }
