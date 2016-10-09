@@ -12,10 +12,24 @@ import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
 import java.util.List;
 
+/**
+ * Class representing pipeline executor.
+ * Runs commands one by one passing output of one command to input of another.
+ */
 public class Executor {
 
     private static final Logger log = LogManager.getLogger(Executor.class);
 
+    /**
+     * Runs command passing bytes from output to input.
+     * Also substitute variables from context to command arguments.
+     * Takes io.STDIN as input for first command and io.STDOUT as output for last command.
+     *
+     * @param io input-output for commands
+     * @param context variables values
+     * @param commands commands to run in right order
+     * @throws Exception if any errors during execution occurs
+     */
     public void execute(IO io, Context context, List<CommandWithArguments> commands) throws Exception {
         ByteArrayOutputStream stdout = new ByteArrayOutputStream();
         if (commands.size() == 1) {

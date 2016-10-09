@@ -6,8 +6,19 @@ import java.io.OutputStream;
 import java.util.Scanner;
 import java.util.function.Consumer;
 
+/**
+ * Some commonly used io utils.
+ */
+
 public class IOUtils {
 
+    /**
+     * Copies all bytes from input to output.
+     *
+     * @param input where to get data
+     * @param output where to put data
+     * @throws IOException if any io errors occurs
+     */
     public static void pipeStream(InputStream input, OutputStream output)
             throws IOException {
         byte buffer[] = new byte[1024];
@@ -21,6 +32,13 @@ public class IOUtils {
     }
 
 
+    /**
+     * Reads lines from input until 2 endlines.
+     * Executes lineProcessor on each line.
+     *
+     * @param input where to get lines
+     * @param lineProcessor function to run on each line
+     */
     public static void interactive(InputStream input, Consumer<String> lineProcessor) {
         Scanner sc = new Scanner(input);
         int emptyLineCount = 0;

@@ -3,6 +3,10 @@ package ru.spbau.bocharov.cli.common;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * Class representing shell context.
+ * Stores variables providing access to them by variable name.
+ */
 public class Context {
 
     private final Map<String, String> vars = new HashMap<>();

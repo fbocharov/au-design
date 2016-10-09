@@ -3,6 +3,9 @@ package ru.spbau.bocharov.cli.parser.quotes;
 import ru.spbau.bocharov.cli.common.Context;
 import ru.spbau.bocharov.cli.common.QuoteString;
 
+/**
+ * Class representing UNIX shell weak quote
+ */
 public class WeakQuoteString implements QuoteString {
 
     private static final char VARIABLE_MARKER = '$';
@@ -14,6 +17,13 @@ public class WeakQuoteString implements QuoteString {
         body = b;
     }
 
+    /**
+     * Finds substrings in #{@link #body} starting with $ and existent in context
+     * and replaces them by value from context
+     *
+     * @param context variables values
+     * @return result of substitution variables from context into #{@link #body}
+     */
     @Override
     public String substitute(Context context) {
         if (substitutedBody == null) {

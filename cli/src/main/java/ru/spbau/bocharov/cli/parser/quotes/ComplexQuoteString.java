@@ -5,6 +5,10 @@ import ru.spbau.bocharov.cli.common.QuoteString;
 
 import java.util.List;
 
+/**
+ * Class to represent complex quoted strings such as #{@code x"$x"'$x'}
+ */
+
 public class ComplexQuoteString implements QuoteString {
 
     private final List<QuoteString> parts;
@@ -14,6 +18,13 @@ public class ComplexQuoteString implements QuoteString {
         parts = quotes;
     }
 
+    /**
+     * Does substitute values from context in each part and concatenate
+     * results.
+     *
+     * @param context variables values
+     * @return result of concatenation
+     */
     @Override
     public String substitute(Context context) {
         if (substitutedBody == null) {
