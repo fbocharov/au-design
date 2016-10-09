@@ -26,7 +26,7 @@ public class CatCommand extends BaseCommand {
      * otherwise reads data from io.STDIN
      *
      * @param io stdin, stdout and stderr of command
-     * @param context some variables defined earlie
+     * @param context some variables defined earlier
      */
     @Override
     public void execute(IO io, Context context) throws IOException {

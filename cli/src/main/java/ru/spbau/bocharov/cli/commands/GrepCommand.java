@@ -13,6 +13,10 @@ import java.util.Arrays;
 import java.util.regex.Pattern;
 import java.util.stream.Stream;
 
+/**
+ * Class representing UNIX grep command
+ */
+
 public class GrepCommand extends BaseCommand {
 
     private CommandLineParser cmdParser = new DefaultParser();
@@ -30,6 +34,18 @@ public class GrepCommand extends BaseCommand {
         super(commandName);
     }
 
+    /**
+     * Tries to find files in arguments. If there is no files provided,
+     * reads data from io.STDIN.
+     * User should specify search pattern and also there is optional arguments:
+     *   -i     to ignore case
+     *   -w     to match whole word
+     *   -A n   to print only firts n matched lines
+     *
+     * @param io stdin, stdout and stderr of command
+     * @param context some variables defined earlier
+     * @throws Exception if arguments parsing errors occurs
+     */
     @Override
     public void execute(IO io, Context context) throws Exception {
         PrintStream stdout = new PrintStream(io.STDOUT);

@@ -9,12 +9,22 @@ import java.util.StringJoiner;
 
 import static ru.spbau.bocharov.cli.utils.IOUtils.pipeStream;
 
+/**
+ * Class to execute unknown command in external shell
+ */
 public class ExternalCommand extends BaseCommand {
 
     public ExternalCommand(String commandName) {
         super(commandName);
     }
 
+    /**
+     * Runs command provided in constructor in external shell, piping
+     * io.STDIN and io.STDOUT to it
+     *
+     * @param io stdin, stdout and stderr of command
+     * @param context some variables defined earlie
+     */
     @Override
     public void execute(IO io, Context context) {
         try {

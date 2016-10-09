@@ -7,6 +7,13 @@ import java.lang.reflect.InvocationTargetException;
 import java.util.HashMap;
 import java.util.Map;
 
+
+/**
+ * Singleton for creating shell commands.
+ *
+ * One who wants to add new command should add entry in #{@link #commandRegistry}.
+ */
+
 public class CommandFactory {
 
     private static final Logger log = LogManager.getLogger(CommandFactory.class);
@@ -18,6 +25,17 @@ public class CommandFactory {
         return instance;
     }
 
+    /**
+     * Creates command (subclass of #{@link Command}) by name. If there is no command with such name,
+     * creates #{@link ExternalCommand}.
+     *
+     * @param commandName name of command to create
+     * @return object representing requested command
+     * @throws IllegalAccessException
+     * @throws InstantiationException
+     * @throws NoSuchMethodException
+     * @throws InvocationTargetException
+     */
     public Command createCommand(String commandName) throws IllegalAccessException, InstantiationException,
             NoSuchMethodException, InvocationTargetException {
 
@@ -33,8 +51,7 @@ public class CommandFactory {
     }
 
     private Map<String, Class> commandRegistry = new HashMap<>();
-
-    private CommandFactory() {
+    {
         commandRegistry.put("cat",  CatCommand.class);
         commandRegistry.put("wc",   WCCommand.class);
         commandRegistry.put("echo", EchoCommand.class);

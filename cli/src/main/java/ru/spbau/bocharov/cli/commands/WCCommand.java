@@ -11,11 +11,22 @@ import java.nio.file.Paths;
 import java.util.Scanner;
 import java.util.stream.Stream;
 
+/**
+ * Class representing UNIX wc command
+ */
 public class WCCommand extends BaseCommand {
 
     public WCCommand(String commandName) {
         super(commandName);
     }
+
+    /**
+     * Uses arguments as file names if any were provided,
+     * otherwise reads data from io.STDIN
+     *
+     * @param io stdin, stdout and stderr of command
+     * @param context some variables defined earlier
+     */
 
     @Override
     public void execute(IO io, Context context) throws IOException {
@@ -39,6 +50,7 @@ public class WCCommand extends BaseCommand {
                     });
                 } catch (IOException e) {
                     e.printStackTrace(stderr);
+                    return;
                 }
                 totalCounters.add(counters);
 

@@ -9,6 +9,14 @@ public class AssignmentCommand extends BaseCommand {
         super(commandName);
     }
 
+    /**
+     * Uses {@link #arguments} as name and value for variable in context.
+     * Assigns variable with name arguments[0] value arguments[1]
+     *
+     * @param io stdin, stdout and stderr of command
+     * @param context some variables defined earlie
+     * @throws Exception if there is no arguments or context is null
+     */
     @Override
     public void execute(IO io, Context context) throws Exception {
         if (arguments.size() != 2) {
