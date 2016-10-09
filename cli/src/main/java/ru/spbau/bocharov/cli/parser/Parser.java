@@ -15,12 +15,28 @@ import java.util.stream.Collectors;
 
 import static ru.spbau.bocharov.cli.parser.ParseUtils.*;
 
+/**
+ * Class representing parser.
+ */
 public class Parser {
 
     static final char PIPE  = '|';
     static final char SPACE = ' ';
     static final char ASSIGNMENT = '=';
 
+    /**
+     * Splits input by into several parts -- commands and arguments connected by pipe.
+     * Then extracts commands and its arguments as #{@link QuoteString} and creates
+     * #{@link CommandWithArguments}.
+     *
+     * @param input line to split
+     * @return ready to execute list of #{@link CommandWithArguments}
+     * @throws LexerException
+     * @throws InvocationTargetException
+     * @throws NoSuchMethodException
+     * @throws InstantiationException
+     * @throws IllegalAccessException
+     */
     public List<CommandWithArguments> parse(String input) throws LexerException, InvocationTargetException,
             NoSuchMethodException, InstantiationException, IllegalAccessException {
         List<CommandWithArguments> result = new LinkedList<>();

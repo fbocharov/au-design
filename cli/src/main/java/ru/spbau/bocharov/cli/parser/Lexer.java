@@ -6,8 +6,19 @@ import java.util.List;
 import static ru.spbau.bocharov.cli.parser.ParseUtils.isEscapedChar;
 import static ru.spbau.bocharov.cli.parser.ParseUtils.isQuote;
 
+/**
+ * Class representing tokenizer.
+ */
 public class Lexer {
 
+    /**
+     * Splits line by separator taking into account quoting.
+     *
+     * @param line line to split
+     * @param separator separator to split by
+     * @return list of line parts divided by separator
+     * @throws LexerException if there is open quotes or wrong open-close quote pairs
+     */
     public List<String> tokenize(String line, char separator) throws LexerException {
         List<String> result = new LinkedList<>();
 

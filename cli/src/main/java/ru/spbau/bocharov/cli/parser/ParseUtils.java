@@ -1,5 +1,9 @@
 package ru.spbau.bocharov.cli.parser;
 
+
+/**
+ * Parser utility class
+ */
 class ParseUtils {
 
     static final char STRONG_QUOTE = '\'';

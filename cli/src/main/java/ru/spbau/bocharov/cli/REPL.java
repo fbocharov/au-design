@@ -11,6 +11,10 @@ import ru.spbau.bocharov.cli.parser.Parser;
 import java.util.List;
 import java.util.Scanner;
 
+/**
+ * Class which runs repl.
+ * Reads user input, executes it and prints result.
+ */
 public class REPL {
 
     private static final Logger log = LogManager.getLogger(REPL.class);
