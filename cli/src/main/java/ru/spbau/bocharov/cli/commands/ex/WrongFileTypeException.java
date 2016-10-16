@@ -8,14 +8,12 @@ import java.io.IOException;
  * @author Vitaliy.Bibaev
  */
 public class WrongFileTypeException extends IOException {
-
-
-  /**
-   * Constructs a new instance of {@link WrongFileTypeException}
-   *
-   * @param message the message why this exception was thrown
-   */
-  public WrongFileTypeException(String message) {
-    super(message);
-  }
+    /**
+     * Constructs a new instance of {@link WrongFileTypeException}
+     *
+     * @param message the message why this exception was thrown
+     */
+    public WrongFileTypeException(String message) {
+        super(message);
+    }
 }
