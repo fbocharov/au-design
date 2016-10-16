@@ -57,6 +57,8 @@ public class CommandFactory {
         commandRegistry.put("echo", EchoCommand.class);
         commandRegistry.put("pwd",  PWDCommand.class);
         commandRegistry.put("grep", GrepCommand.class);
+        commandRegistry.put("cd",   CDCommand.class);
+        commandRegistry.put("ls",   LSCommand.class);
         commandRegistry.put("=",    AssignmentCommand.class);
     }
 }
