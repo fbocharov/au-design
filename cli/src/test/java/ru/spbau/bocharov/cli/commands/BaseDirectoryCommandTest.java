@@ -1,8 +1,10 @@
 package ru.spbau.bocharov.cli.commands;
 
+import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.TemporaryFolder;
+import ru.spbau.bocharov.cli.commands.ex.WrongFileTypeException;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -33,7 +35,7 @@ public class BaseDirectoryCommandTest {
     BaseDirectoryCommand.checkDirectory(directory.toPath());
   }
 
-  @Test(expected = FileNotFoundException.class)
+  @Test(expected = WrongFileTypeException.class)
   public void shouldCheckThatIsNotDirectory() throws IOException {
     final File file = folder.newFile("file");
     assertTrue(file.exists());
