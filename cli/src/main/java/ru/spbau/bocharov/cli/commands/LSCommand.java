@@ -12,18 +12,31 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 /**
+ * Class representing UNIX ls command
+ *
  * @author Vitaliy.Bibaev
  */
 public class LSCommand extends BaseDirectoryCommand {
   private static final String FILES_SEPARATOR = "  ";
 
   /**
+   * Constructs a new {@link LSCommand} instance
+   *
    * @param commandName name of command
    */
   public LSCommand(String commandName) {
     super(commandName);
   }
 
+  /**
+   * Print list of files of the directory(-ies) specified by parameters of this command
+   * <p>
+   * If the first argument is not specified, then files in the current directory will be printed
+   *
+   * @param io      stdin, stdout and stderr of command
+   * @param context some variables defined earlie
+   * @throws Exception throw exception if directories not found any any IO exceptions happened
+   */
   @Override
   public void execute(IO io, Context context) throws Exception {
     PrintStream stdout = new PrintStream(io.STDOUT);
