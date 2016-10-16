@@ -8,6 +8,7 @@ import java.util.Map;
  * Stores variables providing access to them by variable name.
  */
 public class Context {
+    public static final String JVM_DIRECTORY_PROPERTY = "user.dir";
 
     private final Map<String, String> vars = new HashMap<>();
 
