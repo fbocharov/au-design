@@ -70,10 +70,6 @@ public class CDCommandTest extends DirectoryCommandTestCase {
     command.execute(createIO(), createEmptyContext());
   }
 
-  private Path getCurrentDirectory() {
-    return Paths.get(System.getProperty(Context.JVM_DIRECTORY_PROPERTY));
-  }
-
   @Override
   protected String getCommandName() {
     return "cd";

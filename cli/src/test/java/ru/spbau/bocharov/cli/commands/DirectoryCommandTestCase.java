@@ -8,13 +8,15 @@ import ru.spbau.bocharov.cli.common.IO;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
+import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.nio.file.Paths;
 
 public abstract class DirectoryCommandTestCase {
-  public static final String SRC_DIR = "src";
-  public static final String LIB_DIR = "lib";
+  public static final String SRC_DIR = "src" + File.separator;
+  public static final String LIB_DIR = "lib" + File.separator;
   public static final String ROOT_FILE_NAME = "Makefile";
   public static final String SRC_FILE_NAME = "main.cpp";
   public static final String LIB1 = "boost.lib";
@@ -48,6 +50,10 @@ public abstract class DirectoryCommandTestCase {
 
   Context createEmptyContext() {
     return new Context();
+  }
+
+  protected Path getCurrentDirectory() {
+    return Paths.get(System.getProperty(Context.JVM_DIRECTORY_PROPERTY));
   }
 
   protected abstract String getCommandName();
