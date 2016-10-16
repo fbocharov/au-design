@@ -9,6 +9,8 @@ import java.util.Map;
  */
 public class Context {
     public static final String JVM_DIRECTORY_PROPERTY = "user.dir";
+    public static final String JVM_USER_HOME_PROPERTY = "user.home";
+
 
     private final Map<String, String> vars = new HashMap<>();
 

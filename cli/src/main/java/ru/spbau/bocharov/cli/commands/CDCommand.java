@@ -7,8 +7,6 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 
 public class CDCommand extends BaseDirectoryCommand {
-  private static final String JVM_USER_HOME_PROPERTY = "user.home";
-
   /**
    * @param commandName name of command
    */
@@ -21,7 +19,7 @@ public class CDCommand extends BaseDirectoryCommand {
     String currentDirectory = System.getProperty(Context.JVM_DIRECTORY_PROPERTY);
     Path path = Paths.get(currentDirectory);
     if (arguments.isEmpty()) {
-      System.setProperty(Context.JVM_DIRECTORY_PROPERTY, System.getProperty(JVM_USER_HOME_PROPERTY));
+      System.setProperty(Context.JVM_DIRECTORY_PROPERTY, System.getProperty(Context.JVM_USER_HOME_PROPERTY));
     } else {
       final Path newCurrentDirectory = path.resolve(arguments.get(0));
 
