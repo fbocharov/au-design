@@ -60,7 +60,11 @@ public class LSCommand extends BaseDirectoryCommand {
       }
 
       writer.println(String.join(FILES_SEPARATOR, Arrays.stream(files)
-          .map(File::getName).collect(Collectors.toList())));
+          .map(LSCommand::nameOfFile).collect(Collectors.toList())));
     }
+  }
+
+  private static String nameOfFile(File file) {
+    return String.format("%s%s", file.getName(), file.isDirectory() ? File.separator : "");
   }
 }
