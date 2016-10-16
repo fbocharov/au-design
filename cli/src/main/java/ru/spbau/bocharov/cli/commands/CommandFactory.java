@@ -10,7 +10,7 @@ import java.util.Map;
 
 /**
  * Singleton for creating shell commands.
- *
+ * <p>
  * One who wants to add new command should add entry in #{@link #commandRegistry}.
  */
 
@@ -45,20 +45,17 @@ public class CommandFactory {
             return EXTERNAL_COMMAND_CLASS.getConstructor(String.class).newInstance(commandName);
         }
 
-        return (Command) commandRegistry.get(commandName)
-                .getConstructor(String.class)
-                .newInstance(commandName);
+        return commandRegistry.get(commandName).getConstructor(String.class).newInstance(commandName);
     }
 
-    private Map<String, Class> commandRegistry = new HashMap<>();
+    private Map<String, Class<? extends Command>> commandRegistry = new HashMap<>();
+
     {
-        commandRegistry.put("cat",  CatCommand.class);
-        commandRegistry.put("wc",   WCCommand.class);
+        commandRegistry.put("cat", CatCommand.class);
+        commandRegistry.put("wc", WCCommand.class);
         commandRegistry.put("echo", EchoCommand.class);
-        commandRegistry.put("pwd",  PWDCommand.class);
+        commandRegistry.put("pwd", PWDCommand.class);
         commandRegistry.put("grep", GrepCommand.class);
-        commandRegistry.put("cd",   CDCommand.class);
-        commandRegistry.put("ls",   LSCommand.class);
-        commandRegistry.put("=",    AssignmentCommand.class);
+        commandRegistry.put("=", AssignmentCommand.class);
     }
 }
