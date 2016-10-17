@@ -14,7 +14,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
-abstract class DirectoryCommandTestCase {
+public abstract class DirectoryCommandTestCase {
     static final String SRC_DIR = "src" + File.separator;
     static final String LIB_DIR = "lib" + File.separator;
     static final String ROOT_FILE_NAME = "Makefile";
@@ -38,7 +38,6 @@ abstract class DirectoryCommandTestCase {
 
         System.setProperty(Context.JVM_DIRECTORY_PROPERTY, folder.getRoot().getAbsolutePath());
     }
-
 
     IO createIO() {
         return new IO(new ByteArrayInputStream(new byte[BUFFER_SIZE]), new ByteArrayOutputStream(), new ByteArrayOutputStream());
