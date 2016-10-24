@@ -108,7 +108,10 @@ public class GrepCommandTest extends CommandTestBase{
 
     @Test
     public void shouldPrintOnlyNLines() throws Exception {
-        ByteArrayInputStream in = new ByteArrayInputStream("this is test line\nthis is test1 line".getBytes());
+        ByteArrayInputStream in = new ByteArrayInputStream(("" +
+                "this is test line\n" +
+                "line after match\n" +
+                "here is test1 line").getBytes());
         ByteArrayOutputStream out = new ByteArrayOutputStream();
         ByteArrayOutputStream err = new ByteArrayOutputStream();
         IO io = new IO(in, out, err);
@@ -118,7 +121,8 @@ public class GrepCommandTest extends CommandTestBase{
         cmd.execute(io, null);
 
         assertEquals(
-                "this is test line\n",
+                "this is test line\n" +
+                "line after match\n",
                 out.toString());
     }
 
@@ -139,8 +143,7 @@ public class GrepCommandTest extends CommandTestBase{
     }
 
     @Override
-    protected Command createCommand() throws InvocationTargetException, NoSuchMethodException,
-            InstantiationException, IllegalAccessException {
+    protected Command createCommand() throws Exception {
         return CommandFactory.getInstance().createCommand("grep");
     }
 }

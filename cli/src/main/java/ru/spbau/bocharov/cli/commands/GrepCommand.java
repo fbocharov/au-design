@@ -10,6 +10,7 @@ import java.io.PrintStream;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.Arrays;
+import java.util.Iterator;
 import java.util.regex.Pattern;
 import java.util.stream.Stream;
 
@@ -63,28 +64,35 @@ public class GrepCommand extends BaseCommand {
             return;
         }
 
-        final Integer[] printCount = {0};
         Integer maxPrintCount = cmd.hasOption('A') ?
-                Integer.valueOf(cmd.getOptionValue('A').trim()) :
-                Integer.MAX_VALUE;
+                Integer.valueOf(cmd.getOptionValue('A').trim()) : 0;
+        final Integer[] printCount = {maxPrintCount};
 
         Pattern pattern = createRegexPatter(args[0], cmd.hasOption('w'), cmd.hasOption('i'));
         if (args.length > 1) {
             Arrays.asList(args).subList(1, args.length).forEach(file -> {
                 try (Stream<String> lines = Files.lines(Paths.get(file))) {
-                    lines.forEach(line -> {
-                        if (pattern.matcher(line).find() && printCount[0] < maxPrintCount) {
+                    Iterator<String> it = lines.iterator();
+                    while (it.hasNext()) {
+                        String line = it.next();
+                        if (pattern.matcher(line).find()) {
+                            stdout.println(line);
+                            printCount[0] = 0;
+                        } else if (printCount[0] < maxPrintCount) {
                             stdout.println(line);
                             printCount[0]++;
                         }
-                    });
+                    }
                 } catch (IOException e) {
                     e.printStackTrace(stderr);
                 }
             });
         } else if (io.STDIN != null) {
             IOUtils.interactive(io.STDIN, line -> {
-                if (pattern.matcher(line).find() && printCount[0] < maxPrintCount) {
+                if (pattern.matcher(line).find()) {
+                    stdout.println(line);
+                    printCount[0] = 0;
+                } else if (printCount[0] < maxPrintCount) {
                     stdout.println(line);
                     printCount[0]++;
                 }
