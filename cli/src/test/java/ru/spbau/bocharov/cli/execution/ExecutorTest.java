@@ -51,7 +51,7 @@ public class ExecutorTest {
     }
 
     @Test
-    public void shouldSubstitueBeforeExecution() throws Exception {
+    public void shouldSubstituteBeforeExecution() throws Exception {
         OutputStream stdout = new ByteArrayOutputStream();
         OutputStream stderr = new ByteArrayOutputStream();
         IO io = new IO(null, stdout, stderr);
@@ -62,6 +62,20 @@ public class ExecutorTest {
         createExecutor().execute(io, context, commands);
 
         assertEquals("5\n", stdout.toString());
+    }
+
+    @Test
+    public void shouldNotSubstituteInStrongQuotes() throws Exception {
+        OutputStream stdout = new ByteArrayOutputStream();
+        OutputStream stderr = new ByteArrayOutputStream();
+        IO io = new IO(null, stdout, stderr);
+
+        Context context = new Context();
+        context.put("x", "1");
+        List<CommandWithArguments> commands = createParser().parse("echo '123$x'");
+        createExecutor().execute(io, context, commands);
+
+        assertEquals("123$x\n", stdout.toString());
     }
 
     private Executor createExecutor() {
