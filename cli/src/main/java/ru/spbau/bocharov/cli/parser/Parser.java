@@ -31,11 +31,11 @@ public class Parser {
      *
      * @param input line to split
      * @return ready to execute list of #{@link CommandWithArguments}
-     * @throws LexerException
-     * @throws InvocationTargetException
-     * @throws NoSuchMethodException
-     * @throws InstantiationException
-     * @throws IllegalAccessException
+     * @throws LexerException if any lexer errors occurs
+     * @throws InvocationTargetException if #{@link CommandFactory} throws this exception
+     * @throws NoSuchMethodException if #{@link CommandFactory} throws this exception
+     * @throws InstantiationException if #{@link CommandFactory} throws this exception
+     * @throws IllegalAccessException if #{@link CommandFactory} throws this exception
      */
     public List<CommandWithArguments> parse(String input) throws LexerException, InvocationTargetException,
             NoSuchMethodException, InstantiationException, IllegalAccessException {

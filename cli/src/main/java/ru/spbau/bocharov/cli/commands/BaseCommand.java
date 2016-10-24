@@ -26,7 +26,6 @@ public abstract class BaseCommand implements Command {
         name = commandName;
     }
 
-
     @Override
     public void addArguments(String... args) {
         Collections.addAll(arguments, args);

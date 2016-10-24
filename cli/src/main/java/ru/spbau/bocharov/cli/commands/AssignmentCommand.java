@@ -14,7 +14,7 @@ public class AssignmentCommand extends BaseCommand {
      * Assigns variable with name arguments[0] value arguments[1]
      *
      * @param io stdin, stdout and stderr of command
-     * @param context some variables defined earlie
+     * @param context some variables defined earlier
      * @throws Exception if there is no arguments or context is null
      */
     @Override

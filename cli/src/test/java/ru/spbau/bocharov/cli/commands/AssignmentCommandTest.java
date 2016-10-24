@@ -43,7 +43,8 @@ public class AssignmentCommandTest {
         assertEquals(c.get("name"), "value2");
     }
 
-    private Command createCommand() throws InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException {
+
+    private Command createCommand() throws Exception {
         return CommandFactory.getInstance().createCommand("=");
     }
 

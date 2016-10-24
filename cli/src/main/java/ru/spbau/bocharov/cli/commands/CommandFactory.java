@@ -31,10 +31,10 @@ public class CommandFactory {
      *
      * @param commandName name of command to create
      * @return object representing requested command
-     * @throws IllegalAccessException
-     * @throws InstantiationException
-     * @throws NoSuchMethodException
-     * @throws InvocationTargetException
+     * @throws IllegalAccessException if command constructor is inaccessible
+     * @throws InstantiationException if command class is abstract
+     * @throws NoSuchMethodException if command hasn't constructor from #{@link String}
+     * @throws InvocationTargetException if command constructor throws exception
      */
     public Command createCommand(String commandName) throws IllegalAccessException, InstantiationException,
             NoSuchMethodException, InvocationTargetException {

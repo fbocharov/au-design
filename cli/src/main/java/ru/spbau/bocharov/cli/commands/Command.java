@@ -13,7 +13,6 @@ import java.util.List;
  * @author Fyodor Bocharov
  * @see CommandFactory
  */
-
 public interface Command {
 
 

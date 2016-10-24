@@ -43,9 +43,9 @@ public class CatCommandTest extends CommandTestBase {
         assertTrue(err.toString().isEmpty());
     }
 
+
     @Override
-    protected Command createCommand() throws InvocationTargetException, NoSuchMethodException,
-            InstantiationException, IllegalAccessException {
+    protected Command createCommand() throws Exception {
         return CommandFactory.getInstance().createCommand("cat");
     }
 }

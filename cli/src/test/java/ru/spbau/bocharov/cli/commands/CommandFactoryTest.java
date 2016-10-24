@@ -16,8 +16,7 @@ public class CommandFactoryTest {
     }
 
     @Test
-    public void shouldCreateCommands() throws InvocationTargetException, NoSuchMethodException,
-            InstantiationException, IllegalAccessException {
+    public void shouldCreateCommands() throws Exception {
         CommandFactory factory = CommandFactory.getInstance();
 
         assertTrue(factory.createCommand("cat") instanceof CatCommand);

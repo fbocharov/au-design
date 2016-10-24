@@ -8,7 +8,6 @@ import java.util.List;
 /**
  * Class to represent complex quoted strings such as #{@code x"$x"'$x'}
  */
-
 public class ComplexQuoteString implements QuoteString {
 
     private final List<QuoteString> parts;

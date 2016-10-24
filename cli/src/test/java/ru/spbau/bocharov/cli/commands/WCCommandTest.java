@@ -46,8 +46,7 @@ public class WCCommandTest extends CommandTestBase {
 
 
     @Override
-    protected Command createCommand() throws InvocationTargetException, NoSuchMethodException,
-            InstantiationException, IllegalAccessException {
+    protected Command createCommand() throws Exception {
         return CommandFactory.getInstance().createCommand("wc");
     }
 }

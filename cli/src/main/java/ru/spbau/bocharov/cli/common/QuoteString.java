@@ -8,5 +8,13 @@ package ru.spbau.bocharov.cli.common;
 
 public interface QuoteString {
 
+    /**
+     * Substitutes values from context and return result of substitution
+     * See #{@link ru.spbau.bocharov.cli.parser.quotes.WeakQuoteString},
+     * #{@link ru.spbau.bocharov.cli.parser.quotes.StrongQuoteString}
+     *
+     * @param context values for substitution
+     * @return result of substitution
+     */
     String substitute(Context context);
 }

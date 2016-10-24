@@ -19,7 +19,7 @@ public abstract class CommandTestBase {
         assertTrue(!stream.toString().isEmpty());
     }
 
-    protected abstract Command createCommand() throws InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException;
+    protected abstract Command createCommand() throws Exception;
 
     protected String getFilePath(String filename) {
         URL resource = ClassLoader.getSystemClassLoader().getResource(filename);
