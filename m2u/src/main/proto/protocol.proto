@@ -1,0 +1,11 @@
+package proto;
+
+option java_package = "ru.spbau.bocharov.m2u.protocol";
+
+option java_outer_classname = "Protocol";
+
+message Message {
+    optional string userId = 1;
+    optional string username = 2;
+    optional string text = 3;
+}
