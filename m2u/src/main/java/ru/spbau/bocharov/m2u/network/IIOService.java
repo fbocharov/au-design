@@ -8,6 +8,8 @@ public interface IIOService {
 
     void start() throws IOException;
 
+    long connect(String ip, short port) throws IOException;
+
     void registerMessageReceiver(IMessageReceiver receiver);
 
     void send(long connectionId, Protocol.Message message) throws Exception;

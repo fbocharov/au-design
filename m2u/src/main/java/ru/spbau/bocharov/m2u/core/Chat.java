@@ -1,26 +1,29 @@
 package ru.spbau.bocharov.m2u.core;
 
+import lombok.Getter;
 import ru.spbau.bocharov.m2u.network.IIOService;
 import ru.spbau.bocharov.m2u.network.IMessageReceiver;
 import ru.spbau.bocharov.m2u.protocol.Protocol;
 
 import java.io.IOException;
+import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 public class Chat implements IMessageReceiver {
 
+    @Getter
     private String username;
-    private final String thisUserId;
-    private final Map<String, ChatRoom> rooms = new ConcurrentHashMap<>();
+    private final Map<Long, ChatRoom> rooms = new ConcurrentHashMap<>();
+    private final List<IChatRoomListener> roomListeners = new CopyOnWriteArrayList<>();
 
     private final IIOService ioService;
-    private final Map<String, Long> userToConnection = new ConcurrentHashMap<>();
 
-    public Chat(IIOService io, String userId) {
+    public Chat(IIOService io, String user) {
         ioService = io;
-        thisUserId = userId;
+        username = user;
 
         ioService.registerMessageReceiver(this);
     }
@@ -29,11 +32,16 @@ public class Chat implements IMessageReceiver {
         ioService.start();
     }
 
-    public void sendMessage(String roomId, String text) {
-        long connection = userToConnection.get(roomId); // userId == roomId
+    public void createRoom(String ip, short port) throws IOException {
+        long connectionId = ioService.connect(ip, port);
+        ChatRoom room = new ChatRoom(connectionId, String.format("%s:%s", ip, port));
+        rooms.put(connectionId, room);
+        notifyRoomChanged(room);
+    }
 
+    public void sendMessage(long roomId, String text) {
         try {
-            ioService.send(connection, createMessage(thisUserId, username, text));
+            ioService.send(roomId, createMessage(username, text));
         } catch (Exception e) {
             // TODO: print error?
             e.printStackTrace();
@@ -42,9 +50,9 @@ public class Chat implements IMessageReceiver {
 
     public void setUsername(String name) {
         username = name;
-        for (long connection: userToConnection.values()) {
+        for (ChatRoom room: rooms.values()) {
             try {
-                ioService.send(connection, createMessage(thisUserId, username, ""));
+                ioService.send(room.getId(), createMessage(username, ""));
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -52,27 +60,27 @@ public class Chat implements IMessageReceiver {
         notifyUsernameChanged();
     }
 
-    public void closeRoom(String roomId) {
-        long connection = userToConnection.get(roomId); // userId == roomId
+    public void closeRoom(long roomId) {
         try {
-            ioService.close(connection);
+            ioService.close(roomId);
         } catch (Exception e) {
             e.printStackTrace();
         }
 
         rooms.remove(roomId);
-        userToConnection.remove(roomId);
+    }
+
+    public void registerChatRoomListener(IChatRoomListener listener) {
+        roomListeners.add(listener);
     }
 
     @Override
     public void receive(long connectionId, Protocol.Message message) {
-        String userId = message.getUserId();
-        if (!rooms.containsKey(userId)) {  // roomId == userId
-            userToConnection.put(userId, connectionId);
-            rooms.put(userId, new ChatRoom(userId, message.getUsername()));
+        if (!rooms.containsKey(connectionId)) {  // roomId == userId
+            rooms.put(connectionId, new ChatRoom(connectionId, message.getUsername()));
         }
 
-        ChatRoom room = rooms.get(userId);
+        ChatRoom room = rooms.get(connectionId);
         String username = message.getUsername();
         if (!Objects.equals(room.getUsername(), username)) {
             room.setUsername(username);
@@ -86,16 +94,20 @@ public class Chat implements IMessageReceiver {
     }
 
     private void notifyUsernameChanged() {
-        // TODO: implement me!!
+        for (IChatRoomListener listener: roomListeners) {
+            listener.processUsernameChange(username);
+        }
     }
 
     private void notifyRoomChanged(ChatRoom room) {
         // TODO: implement me!!
+        for (IChatRoomListener listener: roomListeners) {
+            listener.processRoomChange(room);
+        }
     }
 
-    private static Protocol.Message createMessage(String userId, String user, String text) {
+    private static Protocol.Message createMessage(String user, String text) {
         Protocol.Message.Builder builder = Protocol.Message.newBuilder();
-        builder.setUserId(userId);
         builder.setUsername(user);
         builder.setText(text);
         return builder.build();

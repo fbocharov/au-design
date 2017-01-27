@@ -11,17 +11,19 @@ import java.io.*;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.*;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.CopyOnWriteArrayList;
+import java.util.concurrent.atomic.AtomicLong;
 
 public class DefaultIOService implements IIOService {
 
     private final static Logger log = LogManager.getLogger(DefaultIOService.class);
 
-    private static long nextConnectionId = 0;
+    private static AtomicLong nextConnectionId = new AtomicLong(0);
 
     private final short port;
     private final List<IMessageReceiver> receivers = new CopyOnWriteArrayList<>();
-    private final Map<Long, Connection> connections = new HashMap<>();
+    private final Map<Long, Connection> connections = new ConcurrentHashMap<>();
 
     public DefaultIOService(short p) {
         port = p;
@@ -29,16 +31,28 @@ public class DefaultIOService implements IIOService {
     
     @Override
     public void start() throws IOException {
-        try (ServerSocket ss = new ServerSocket(port)) {
-            log.info("started server on port " + port);
-            while (!ss.isClosed()) {
-                Socket s = ss.accept();
-                log.info("accepted connection from " + s.getInetAddress().toString());
+        new Thread(() -> {
+            try (ServerSocket ss = new ServerSocket(port)) {
+                log.info("started server on port " + port);
+                while (!ss.isClosed()) {
+                    Socket s = ss.accept();
+                    log.info("accepted connection from " + s.getInetAddress().toString());
 
-                long connectionId = nextConnectionId++;
-                connections.put(connectionId, new Connection(connectionId, s));
+                    long connectionId = nextConnectionId.getAndIncrement();
+                    connections.put(connectionId, new Connection(connectionId, s));
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+                throw new UncheckedIOException(e);
             }
-        }
+        }).start();
+    }
+
+    @Override
+    public long connect(String ip, short port) throws IOException {
+        long connectionId = nextConnectionId.getAndIncrement();
+        connections.put(connectionId, new Connection(connectionId, new Socket(ip, port)));
+        return connectionId;
     }
 
     @Override

@@ -10,11 +10,11 @@ public class ChatRoom {
     @Getter
     private String username;
     @Getter
-    private final String id;
+    private final long id;
     @Getter
     private final List<String> history = new LinkedList<>();
 
-    ChatRoom(String roomId, String user) {
+    ChatRoom(long roomId, String user) {
         id = roomId;
         username = user;
     }
