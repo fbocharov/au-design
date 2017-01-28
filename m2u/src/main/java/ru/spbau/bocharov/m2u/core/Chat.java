@@ -43,7 +43,6 @@ public class Chat implements IMessageReceiver {
         try {
             ioService.send(roomId, createMessage(username, text));
         } catch (Exception e) {
-            // TODO: print error?
             e.printStackTrace();
         }
     }
@@ -84,13 +83,12 @@ public class Chat implements IMessageReceiver {
         String username = message.getUsername();
         if (!Objects.equals(room.getUsername(), username)) {
             room.setUsername(username);
-            notifyRoomChanged(room);
         }
 
         if (!message.getText().isEmpty()) {
             room.appendMessage(message.getText());
-            notifyRoomChanged(room);
         }
+        notifyRoomChanged(room);
     }
 
     private void notifyUsernameChanged() {
@@ -100,7 +98,6 @@ public class Chat implements IMessageReceiver {
     }
 
     private void notifyRoomChanged(ChatRoom room) {
-        // TODO: implement me!!
         for (IChatRoomListener listener: roomListeners) {
             listener.processRoomChange(room);
         }
