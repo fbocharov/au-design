@@ -23,7 +23,9 @@ public class CommandFactoryTest {
         assertTrue(factory.createCommand("echo") instanceof EchoCommand);
         assertTrue(factory.createCommand("pwd") instanceof PWDCommand);
         assertTrue(factory.createCommand("wc") instanceof WCCommand);
-        assertTrue(factory.createCommand("ls") instanceof ExternalCommand);
+        assertTrue(factory.createCommand("ls") instanceof LSCommand);
+        assertTrue(factory.createCommand("cd") instanceof CDCommand);
+        assertTrue(factory.createCommand("java") instanceof ExternalCommand);
         assertTrue(factory.createCommand("=") instanceof AssignmentCommand);
     }
 }
